@@ -134,18 +134,18 @@ void Control::KinematicsController()
 
 void Control::MotorController()
 {
-//  Serial.println("wheelVels 0 ");
-//  Serial.println(wheelVels[0]);
-//  Serial.println("wheelVels 1");
-//  Serial.println(wheelVels[1]);
-//  Serial.println("wheelVels 2");
-//  Serial.println(wheelVels[2]);
+  Serial.println("wheelVels 0 ");
+  Serial.println(wheelVels[0]);
+  Serial.println("wheelVels 1");
+  Serial.println(wheelVels[1]);
+  Serial.println("wheelVels 2");
+  Serial.println(wheelVels[2]);
   // Convert to 10-21 scale and to power values
-  int lowEnd = 10;
-  int wheelpower = 0;
+  int lowEnd = 5;
+  double wheelpower = 0;
   for (int ii =0; ii < 3; ii++){
-    if (wheelVels[ii] > 0) wheelpower = (wheelVels[ii]/21*(21-lowEnd)+ lowEnd)*255;
-    else if (wheelVels[ii] < 0) wheelpower = (wheelVels[ii]/21*(21-lowEnd)- lowEnd)*255;
+    if (wheelVels[ii] > 0) wheelpower = (wheelVels[ii]/21*(21-lowEnd)+ lowEnd)/21*255;
+    else if (wheelVels[ii] < 0) wheelpower = (wheelVels[ii]/21*(21-lowEnd)- lowEnd)/21*255;
     else {
       wheelpower = 0;
       Serial.print("check ");
@@ -163,20 +163,17 @@ void Control::MotorController()
         wheelpow3 = wheelpower;
         break;
     }
-  }
-  
+  }  
   AMotorControl.drive(wheelpow1);
   BMotorControl.drive(wheelpow2);
   CMotorControl.drive(wheelpow3);
   startread = 1; // after setting drive speed, go back into serial waiting mode
   // bluetooth.print("bluetooth is running");
-  // Serial.println("pow w1 ");
-  // Serial.println(wheelpow1);
-  // Serial.println("pow w2 ");
-  // Serial.println(wheelpow2);
-   Serial.print("pow w3 ");
-   Serial.println(wheelVels[2]);
-   Serial.print("pow w3 ");
-   Serial.println(wheelpow3);
+//   Serial.println("pow w1 ");
+//   Serial.println(wheelpow1);
+//   Serial.println("pow w2 ");
+//   Serial.println(wheelpow2);
+//   Serial.print("pow w3 ");
+//   Serial.println(wheelpow3);
   // Remember that without full power, not all of the wheels will move
 }
