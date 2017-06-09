@@ -13,9 +13,7 @@
 	{
 	public:
 		Kinematics();
-		int * RotateClockWise(double speed);
-		int * RotateAntiClockWise(double speed);
-		int * DriveDirection(double speed, double direction, double spin);
+		double * DriveDirection(double speed, double direction, double spin);
 	private:
 		
 	};
