@@ -35,7 +35,7 @@ void Control::SerialUno()
 {
   // Test Kinematics
   delay(5000);
-  direct = 270;
+  direct += 90;
   if (direct >= 360) direct = 0;
   data[0] = "21";
   data[1] = String(direct);
