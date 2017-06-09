@@ -2,6 +2,10 @@
 	Control.cpp - Class for controlling the robot on a high level.
 	Created by Jacky M. Lui 4 November 2015.
 	Works within the BUDDY system
+wheel 0 left
+wheel 1 right
+wheel 2 back
+
 */
 
 #include "Control.h"
@@ -116,15 +120,15 @@ void Control::KinematicsController()
 //  wheelVels[0] = *outvels;
 //  wheelVels[1] = *(outvels+1);
 //  wheelVels[2] = *(outvels+2); 
-// Test Spin
+// Test Forward and Backward
   if (count < 50){
-    wheelVels[0] = 21;
-    wheelVels[1] = 21;
-    wheelVels[2] = 21; 
+    wheelVels[0] = -15;
+    wheelVels[1] = 15;
+    wheelVels[2] = 0; 
   } else{
-    wheelVels[0] = -21;
-    wheelVels[1] = -21;
-    wheelVels[2] = -21; 
+    wheelVels[0] = 15;
+    wheelVels[1] = -15;
+    wheelVels[2] = 0; 
     if (count > 100) count = 0;
   }
   Serial.print("Count is");
@@ -156,5 +160,5 @@ void Control::MotorController()
   // Serial.println(wheelpow2);
   // Serial.println("pow w3 ");
   // Serial.println(wheelpow3);
-  // Remember that without full power, not all of the wheels will move
+  // Remember that without 15 power, not all of the wheels will move
 }
