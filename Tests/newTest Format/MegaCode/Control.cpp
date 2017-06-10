@@ -31,7 +31,7 @@ void Control::Controlsetup()
   direct = 0;
 }	
 
-void Control::SerialUno()
+void Control::runTests()
 {
   // Test Kinematics
   delay(5000);

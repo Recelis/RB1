@@ -27,7 +27,7 @@ public:
 	void Controlsetup();
 	void MotorController();
 	void KinematicsController();
-	void SerialUno();
+	void runTests();
 	double * outvels;
 	double wheelVels[3];
 
