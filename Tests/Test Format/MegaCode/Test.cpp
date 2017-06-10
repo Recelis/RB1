@@ -6,6 +6,7 @@
   Test::Test(){
     count = 0;
     direct = 0;
+//    static long ultrasonicReadings[6];
   }
 
   int * Test::spin(){
@@ -53,5 +54,22 @@
     Serial.print("direction ");
     Serial.println(direct);
     return data;
+  }
+
+  void Test::ultrasonics(){
+    testSensor.SensorsSetup();
+    testSensor.UltrasonicCon();
+    ultrasonicReadings = testSensor.UltrasonicOutputs();
+    
+    Serial.print("Range of Right is: ");
+    Serial.println(*(ultrasonicReadings+1));
+   Serial.print("Range of Back is: ");
+   Serial.println(*(ultrasonicReadings+2));
+   Serial.print("Range of Left is: ");
+   Serial.println(*(ultrasonicReadings+3));
+   Serial.print("Range of Front is: ");
+   Serial.println(*(ultrasonicReadings+4));
+   Serial.print("Range of Down is: ");
+   Serial.println(*(ultrasonicReadings+5));
   }
 

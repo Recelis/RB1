@@ -21,15 +21,22 @@ void Control::Controlsetup()
   speed = 0;
   direction = 0;
   spin = 0;
+  
 }	
+
+void Control::runCode(){
+  
+}
 
 void Control::runTests()
 {
-  data = MyTests.forwardAndBackward();
-  speed = *data;
-  direction = *(data+1);
-  spin = *(data+2);
+    MyTests.ultrasonics();
+//  data = MyTests.forwardAndBackward();
+//  speed = *data;
+//  direction = *(data+1);
+//  spin = *(data+2);
 } 
+
 
 void Control::KinematicsController()
 {
@@ -41,12 +48,12 @@ void Control::KinematicsController()
 
 void Control::MotorController()
 {
-  Serial.println("wheelVels 0 ");
-  Serial.println(wheelVels[0]);
-  Serial.println("wheelVels 1");
-  Serial.println(wheelVels[1]);
-  Serial.println("wheelVels 2");
-  Serial.println(wheelVels[2]);
+//  Serial.println("wheelVels 0 ");
+//  Serial.println(wheelVels[0]);
+//  Serial.println("wheelVels 1");
+//  Serial.println(wheelVels[1]);
+//  Serial.println("wheelVels 2");
+//  Serial.println(wheelVels[2]);
   // Convert to 10-21 scale and to power values
   int lowEnd = 5;
   double wheelpower = 0;
@@ -55,8 +62,8 @@ void Control::MotorController()
     else if (wheelVels[ii] < 0) wheelpower = (wheelVels[ii]/21*(21-lowEnd)- lowEnd)/21*255;
     else {
       wheelpower = 0;
-      Serial.print("check ");
-      Serial.println(ii);
+//      Serial.print("check ");
+//      Serial.println(ii);
     }
 
     switch(ii){

@@ -15,6 +15,7 @@
 #include "Arduino.h"
 #include "MotorControl.h"
 #include "Kinematics.h"
+#include "Sensors.h"
 #include "Test.h"
 #include <math.h>
 #include <SoftwareSerial.h>	
@@ -29,6 +30,7 @@ public:
 	void MotorController();
 	void KinematicsController();
 	void runTests();
+	void runCode();
 	double * outvels;
 	double wheelVels[3];
   int * data;

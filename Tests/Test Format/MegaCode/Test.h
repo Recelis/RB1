@@ -8,6 +8,7 @@
 #define Test_h
 
 #include "Arduino.h"
+#include "Sensors.h"
 
 class Test
 {
@@ -16,9 +17,12 @@ class Test
    int* spin();
    int* forwardAndBackward();
    int* kinematics();
+   void ultrasonics();
+   Sensors testSensor;
  private:
   int direct;
   int count;
+  int * ultrasonicReadings;
 };
 
 #endif
