@@ -25,6 +25,11 @@ void Control::Controlsetup()
 }	
 
 void Control::runCode(){
+  SensorData.SensorsSetup();
+  SensorData.UltrasonicCon();
+  int *ultrasonicReadings;
+  ultrasonicReadings = SensorData.UltrasonicOutputs();
+
   
 }
 

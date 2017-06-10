@@ -18,12 +18,11 @@
 #include "Sensors.h"
 #include "Test.h"
 #include <math.h>
-#include <SoftwareSerial.h>	
 
 class Control
 {
 public:
-	Control() : BMotorControl(2,4,3), CMotorControl(7,8,6), AMotorControl(11,12,5), SerialTrans(14,15){
+	Control() : BMotorControl(2,4,3), CMotorControl(7,8,6), AMotorControl(11,12,5){
 		pinMode(13, OUTPUT); // Built in LED and Iron Man LED Array 
 	}
 	void Controlsetup();
@@ -41,7 +40,7 @@ private:
 	MotorControl CMotorControl;
 	Kinematics OmniKinematics;
   Test MyTests;
-	SoftwareSerial SerialTrans;
+  Sensors SensorData;
 	char SerialGet;
 	int SerialBegin;
 	int wheelpow1;

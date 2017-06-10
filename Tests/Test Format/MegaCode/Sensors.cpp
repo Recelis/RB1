@@ -89,8 +89,6 @@ int * Sensors::UltrasonicOutputs()
    ultrasonicReturn[3] = (int) Leftrange;
    ultrasonicReturn[4] = (int) Frontrange;
    ultrasonicReturn[5] = (int) Downrange;
-   Serial.print("Down!!! ");
-   Serial.println(ultrasonicReturn[5]); 
    return ultrasonicReturn;
 }
 
