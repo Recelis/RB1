@@ -14,9 +14,11 @@ class Test
  public:
    Test();
    int* spin();
+   int* forwardAndBackward();
    int* kinematics();
  private:
   int direct;
+  int count;
 };
 
 #endif

@@ -25,7 +25,7 @@ void Control::Controlsetup()
 
 void Control::runTests()
 {
-  data = MyTests.kinematics();
+  data = MyTests.spin();
   speed = *data;
   direction = *(data+1);
   spin = *(data+2);

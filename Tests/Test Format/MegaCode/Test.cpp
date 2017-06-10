@@ -4,10 +4,28 @@
   
 
   Test::Test(){
+    count = 0;
     direct = 0;
   }
 
   int * Test::spin(){
+    int data[3];
+    if (count < 50){
+      data[0] = 0;
+      data[1] = 0;
+      data[2] = 135; 
+    } else{
+      data[0] = 0;
+      data[1] = 0;
+      data[2] = -135; 
+      if (count > 100) count = 0;
+    }
+    count++;
+    Serial.println(data[2]);
+    return data;
+  }
+
+  int * Test::forwardAndBackward(){
     
   }
 
