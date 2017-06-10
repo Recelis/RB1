@@ -15,6 +15,7 @@
 #include "Arduino.h"
 #include "MotorControl.h"
 #include "Kinematics.h"
+#include "Test.h"
 #include <math.h>
 #include <SoftwareSerial.h>	
 
@@ -30,12 +31,14 @@ public:
 	void runTests();
 	double * outvels;
 	double wheelVels[3];
+  int * data;
 
 private:
 	MotorControl AMotorControl;
 	MotorControl BMotorControl;
 	MotorControl CMotorControl;
 	Kinematics OmniKinematics;
+  Test MyTests;
 	SoftwareSerial SerialTrans;
 	char SerialGet;
 	int SerialBegin;
@@ -44,7 +47,7 @@ private:
 	int wheelpow3;
 	int lightcount;
 	String serialDataIn;
-	String data[3];
+	
 	char inbyte;
 	int counter;
 	int speed;

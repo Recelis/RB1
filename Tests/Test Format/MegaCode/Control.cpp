@@ -13,38 +13,22 @@ void Control::Controlsetup()
 {
 	Serial.begin(9600); // Begin the serial monitor at 9600bps
 	Serial.println("serialMonitor is turned on");
-  SerialTrans.begin(9600);
-  SerialTrans.print("Serial ready!");
   AMotorControl.setupinput();
   BMotorControl.setupinput();
   CMotorControl.setupinput();
   lightcount = 0; //start lightcount
-  serialDataIn = String("");
   counter = 0;
   speed = 0;
   direction = 0;
   spin = 0;
-  inbyte = 'N';
-  SerialBegin = 0;
-  startread = 1;
-  // Test
-  direct = 0;
 }	
 
 void Control::runTests()
 {
-  // Test Kinematics
-  delay(5000);
-  direct += 90;
-  if (direct >= 360) direct = 0;
-  data[0] = "21";
-  data[1] = String(direct);
-  data[2] = "0";
-  speed = data[0].toInt(); // set speed
-  direction = data[1].toInt(); // set direction
-  spin = data[2].toInt(); // set spin
-  Serial.print("direction ");
-  Serial.println(data[1]);
+  data = MyTests.kinematics();
+  speed = *data;
+  direction = *(data+1);
+  spin = *(data+2);
 } 
 
 void Control::KinematicsController()
