@@ -26,7 +26,20 @@
   }
 
   int * Test::forwardAndBackward(){
-    
+     int data[3];
+    if (count < 50){
+      data[0] = 21;
+      data[1] = 90;
+      data[2] = 0; 
+    } else{
+      data[0] = 21;
+      data[1] = 270;
+      data[2] = 0; 
+      if (count > 100) count = 0;
+    }
+    count++;
+    Serial.println(data[2]);
+    return data;
   }
 
   int * Test::kinematics(){

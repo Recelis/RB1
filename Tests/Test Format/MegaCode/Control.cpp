@@ -25,7 +25,7 @@ void Control::Controlsetup()
 
 void Control::runTests()
 {
-  data = MyTests.spin();
+  data = MyTests.forwardAndBackward();
   speed = *data;
   direction = *(data+1);
   spin = *(data+2);
