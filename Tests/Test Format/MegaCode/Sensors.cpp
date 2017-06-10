@@ -82,7 +82,7 @@ void Sensors::UltrasonicCon()
    Downrange = ultrasonic_D.Ranging(CM); 
 }
 
-int * Sensors::UltrasonicOutputs()
+int* Sensors::UltrasonicOutputs()
 {
    ultrasonicReturn[1] = (int) Rightrange;
    ultrasonicReturn[2] = (int) Backrange;

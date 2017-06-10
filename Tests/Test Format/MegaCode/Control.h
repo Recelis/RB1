@@ -19,6 +19,9 @@
 #include "Test.h"
 #include <math.h>
 
+#define SET true
+#define OFF false
+
 class Control
 {
 public:

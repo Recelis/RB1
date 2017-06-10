@@ -29,13 +29,12 @@ void Control::runCode(){
   SensorData.UltrasonicCon();
   int *ultrasonicReadings;
   ultrasonicReadings = SensorData.UltrasonicOutputs();
-
   
 }
 
 void Control::runTests()
 {
-    MyTests.ultrasonics();
+    MyTests.navigation();
 //  data = MyTests.forwardAndBackward();
 //  speed = *data;
 //  direction = *(data+1);
@@ -96,3 +95,4 @@ void Control::MotorController()
 //   Serial.println(wheelpow3);
   // Remember that without full power, not all of the wheels will move
 }
+

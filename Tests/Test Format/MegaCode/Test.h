@@ -9,6 +9,7 @@
 
 #include "Arduino.h"
 #include "Sensors.h"
+#include "Navigation.h"
 
 class Test
 {
@@ -17,12 +18,14 @@ class Test
    int* spin();
    int* forwardAndBackward();
    int* kinematics();
-   void ultrasonics();
+   int* ultrasonics();
    Sensors testSensor;
+   Navigation testNavigation;
+   int* navigation();
  private:
   int direct;
   int count;
-  int * ultrasonicReadings;
+  
 };
 
 #endif
