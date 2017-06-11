@@ -92,5 +92,9 @@ int* Sensors::UltrasonicOutputs()
    return ultrasonicReturn;
 }
 
+int Sensors::compass(){
+  return onboardCompass.getHeading();
+}
+
 
 

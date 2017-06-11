@@ -24,8 +24,6 @@ long Ultrasonic::Timing()
   delayMicroseconds(10);
   digitalWrite(Trig_pin, LOW);
   duration = pulseIn(Echo_pin,HIGH);
-//  Serial.print("duration: ");
-//  Serial.println(duration);
   return duration;
 }
 

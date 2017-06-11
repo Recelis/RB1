@@ -12,6 +12,7 @@
 
 #include "Arduino.h"
 #include "Ultrasonic.h"
+#include "compass.h"
   
 class Sensors 
 {
@@ -25,6 +26,7 @@ class Sensors
     void UltrasonicCon();
     int * UltrasonicOutputs();
 //    int * IR_Beacon();
+    int compass();
       
   private:
 //    AltSoftSerial bluetooth;
@@ -33,6 +35,7 @@ class Sensors
     Ultrasonic ultrasonic_B;
     Ultrasonic ultrasonic_L;
     Ultrasonic ultrasonic_F;
+    Compass onboardCompass;
     long Rightrange;
     long Backrange;
     long Leftrange;

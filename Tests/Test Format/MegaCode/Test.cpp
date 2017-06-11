@@ -74,6 +74,12 @@
    return ultrasonicReadings;
   }
 
+  void Test::compass(){
+    int heading = testSensor.compass();
+    Serial.print("heading is: ");
+    Serial.println(heading);
+  }
+
   int * Test::navigation(){
     int * readings;
     readings= *ultrasonics();
