@@ -23,8 +23,8 @@ class Sensors
       }
     void SensorsSetup();
 //    void BluetoothCon();
-    void UltrasonicCon();
-    int * UltrasonicOutputs();
+    void ultrasonicCon();
+    int * ultrasonicOutputs();
 //    int * IR_Beacon();
     int compass();
       

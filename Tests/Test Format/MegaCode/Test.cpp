@@ -57,20 +57,18 @@
 
   int* Test::ultrasonics(){
     testSensor.SensorsSetup();
-    testSensor.UltrasonicCon();
     int * ultrasonicReadings;
-    ultrasonicReadings = *testSensor.UltrasonicOutputs();
-    
-//    Serial.print("Range of Right is: ");
-//    Serial.println(*(ultrasonicReadings+1));
-//    Serial.print("Range of Back is: ");
-//    Serial.println(*(ultrasonicReadings+2));
-//    Serial.print("Range of Left is: ");
-//    Serial.println(*(ultrasonicReadings+3));
-//    Serial.print("Range of Front is: ");
-//    Serial.println(*(ultrasonicReadings+4));
-//    Serial.print("Range of Down is: ");
-//    Serial.println(*(ultrasonicReadings+5));
+    ultrasonicReadings = *testSensor.ultrasonicOutputs();    
+    Serial.print("Range of Right is: ");
+    Serial.println(*(ultrasonicReadings+1));
+    Serial.print("Range of Back is: ");
+    Serial.println(*(ultrasonicReadings+2));
+    Serial.print("Range of Left is: ");
+    Serial.println(*(ultrasonicReadings+3));
+    Serial.print("Range of Front is: ");
+    Serial.println(*(ultrasonicReadings+4));
+    Serial.print("Range of Down is: ");
+    Serial.println(*(ultrasonicReadings+5));
    return ultrasonicReadings;
   }
 
@@ -81,19 +79,24 @@
   }
 
   int * Test::navigation(){
-    int * readings;
-    readings= *ultrasonics();
-//    Serial.print("Range of Right is: ");
-//    Serial.println(*(readings+1));
-//    Serial.print("Range of Back is: ");
-//    Serial.println(*(readings+2));
-//    Serial.print("Range of Left is: ");
-//    Serial.println(*(readings+3));
-//    Serial.print("Range of Front is: ");
-//    Serial.println(*(readings+4));
-//    Serial.print("Range of Down is: ");
-//    Serial.println(*(readings+5));
-    testNavigation.vectorFields(readings);
+    // assume that computer is sending these values to RB1
+    int data[3];
+    data[0] = 21;
+    data[1] = 90;
+    data[2] = 0;
     
+    int * readings;
+    readings= *testSensor.ultrasonicOutputs();
+    testNavigation.vectorFields(readings);
+    Serial.print("Range of Right is: ");
+    Serial.println(*(readings+1));
+    Serial.print("Range of Back is: ");
+    Serial.println(*(readings+2));
+    Serial.print("Range of Left is: ");
+    Serial.println(*(readings+3));
+    Serial.print("Range of Front is: ");
+    Serial.println(*(readings+4));
+    Serial.print("Range of Down is: ");
+    Serial.println(*(readings+5));
   }
 

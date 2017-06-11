@@ -73,7 +73,7 @@ void Sensors::SensorsSetup()
 //  }
 //}
 
-void Sensors::UltrasonicCon()
+void Sensors::ultrasonicCon()
 {
    Rightrange = ultrasonic_R.Ranging(CM);
    Backrange = ultrasonic_B.Ranging(CM);   
@@ -82,8 +82,9 @@ void Sensors::UltrasonicCon()
    Downrange = ultrasonic_D.Ranging(CM); 
 }
 
-int* Sensors::UltrasonicOutputs()
+int* Sensors::ultrasonicOutputs()
 {
+   ultrasonicCon();
    ultrasonicReturn[1] = (int) Rightrange;
    ultrasonicReturn[2] = (int) Backrange;
    ultrasonicReturn[3] = (int) Leftrange;
@@ -91,6 +92,7 @@ int* Sensors::UltrasonicOutputs()
    ultrasonicReturn[5] = (int) Downrange;
    return ultrasonicReturn;
 }
+
 
 int Sensors::compass(){
   return onboardCompass.getHeading();

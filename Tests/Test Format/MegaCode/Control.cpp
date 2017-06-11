@@ -26,16 +26,16 @@ void Control::Controlsetup()
 
 void Control::runCode(){
   SensorData.SensorsSetup();
-  SensorData.UltrasonicCon();
   int *ultrasonicReadings;
-  ultrasonicReadings = SensorData.UltrasonicOutputs();
+  ultrasonicReadings = SensorData.ultrasonicOutputs();
+  int heading = SensorData.compass();
   
 }
 
 void Control::runTests()
 {
-//    MyTests.navigation();
-    MyTests.compass();
+    MyTests.navigation();
+//    MyTests.compass();
 //  data = MyTests.forwardAndBackward();
 //  speed = *data;
 //  direction = *(data+1);
