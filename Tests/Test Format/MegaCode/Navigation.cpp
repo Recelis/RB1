@@ -47,8 +47,9 @@ int * Navigation::detectedObject(){
 //    Serial.print("Range of Down is: ");
 //    Serial.println(*(readings+5));
 
-int* Navigation::vectorFields(int* ultrasonicReadings)
+int* Navigation::vectorFields(int* data,int* ultrasonicReadings)
 {  
+    int * vectoredData;
     rightSensor = *(ultrasonicReadings+1);
     backSensor = *(ultrasonicReadings+2);
     leftSensor = *(ultrasonicReadings+3);
@@ -60,6 +61,11 @@ int* Navigation::vectorFields(int* ultrasonicReadings)
     // Calculate direction of field
     xdirection = rightSensor - leftSensor;
     ydirection = frontSensor - backSensor;
+
+
+
+    vectoredData = data;
+    return vectoredData;
     // Implement Vector Fields
 //    prevrobspeed = robspeed;
 //    prevrobdirection = robdirection;

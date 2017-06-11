@@ -16,7 +16,7 @@ class Navigation
 {
   public:
     Navigation();
-    int* vectorFields(int* ultrasonicReadings);
+    int* vectorFields(int *data, int* ultrasonicReadings);
     int * detectedObject(); 
   private:
     int rightSensor;
