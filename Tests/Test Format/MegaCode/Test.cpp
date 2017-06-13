@@ -93,6 +93,7 @@
     Serial.println(*(vdata));
     Serial.println(*(vdata+1));
     Serial.println(*(vdata+2));
+    return vdata;
   }
 
 //      Serial.print("Range of Right is: ");

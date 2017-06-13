@@ -34,12 +34,18 @@ void Control::runCode(){
 
 void Control::runTests()
 {
-    MyTests.navigation();
+    data = MyTests.kinematics();
 //    MyTests.compass();
 //  data = MyTests.forwardAndBackward();
-//  speed = *data;
-//  direction = *(data+1);
-//  spin = *(data+2);
+  speed = *data;
+  direction = *(data+1);
+  spin = *(data+2);
+  Serial.print("Speed: ");
+  Serial.println(speed);
+  Serial.print("Direction: ");
+  Serial.println(direction);
+  Serial.print("Spin: ");
+  Serial.println(spin);
 } 
 
 

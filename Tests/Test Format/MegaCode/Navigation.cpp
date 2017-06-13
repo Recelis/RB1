@@ -8,7 +8,20 @@
 #include "Navigation.h"
 
 Navigation::Navigation(){
-  
+   vector0x = 0;
+   vector0y = 0;
+
+   vector1x = 0;
+   vector1y = 0;
+
+   vector2x = 0;
+   vector2y = 0;
+
+   vorgX = 0;
+   vorgY = 0;
+
+   xdirection = 0;
+   ydirection = 0;
 }
 
 int * Navigation::detectedObject(){
@@ -33,6 +46,7 @@ int * Navigation::detectedObject(){
   if (downSensor < 13 || downSensor > 18) {
     objects[4] = 1; 
   }
+
   return objects;
 }
 
@@ -49,7 +63,7 @@ int * Navigation::detectedObject(){
 
 int* Navigation::vectorFields(int* data,int* ultrasonicReadings)
 {  
-    int * vectoredData;
+    int vectoredData[3];
     rightSensor = *(ultrasonicReadings+1);
     backSensor = *(ultrasonicReadings+2);
     leftSensor = *(ultrasonicReadings+3);
@@ -58,15 +72,41 @@ int* Navigation::vectorFields(int* data,int* ultrasonicReadings)
     
     int * objects;
     objects = detectedObject();
-    // Calculate direction of field
-    xdirection = rightSensor - leftSensor;
-    ydirection = frontSensor - backSensor;
+    // Calculate direction of field0
 
+    // calculate magnitudes of three vectors
+    int v0 = 100 - leftSensor;
+    int v1 = 100 - frontSensor;
+    int v2 = 100 - rightSensor;
 
+    // calculate x and y components
+    vector0x = cos(120*PI/180);
+    vector0y = sin(120*PI/180);
 
-    vectoredData = data;
-    return vectoredData;
+    vector1x = 0;
+    vector1y = cos(90*PI/360);
+
+    vector2x = cos(60*PI/360);
+    vector2y = sin(60*PI/360);
+
+    // original
+    vorgX = *data * cos(*(data+1)*PI/360);
+    vorgY = *data * sin(*(data+1)*PI/360) 
+    // 
+    xdirection = vector0x + vector1x + vector2x + vorgx;
+    ydirection = (vector0y + vector1y + vector2y + vorgy)/4;
+
+    int direction = atan2(ydirection, xdirection); 
+    vectoredData[0] = "21";
+    vectoredData[1] = direction;
+    vectoredData[2] = *(data+2);
+
+    
+    int *returnPointer = vectoredData;
+    return returnPointer;
     // Implement Vector Fields
+
+    
 //    prevrobspeed = robspeed;
 //    prevrobdirection = robdirection;
 //    prevrobspin = robspin;  
