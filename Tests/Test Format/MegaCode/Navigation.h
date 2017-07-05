@@ -17,13 +17,13 @@ class Navigation
   public:
     Navigation();
     int* vectorFields(int *data, int* ultrasonicReadings);
-    int * detectedObject(); 
-  private:
+    int * detectedObject();
     int rightSensor;
     int backSensor;
     int leftSensor;
     int frontSensor;
-    int downSensor;
+    int downSensor; 
+  private:
 
     int xdirection;
     int ydirection;

@@ -1,4 +1,4 @@
-/* 
+/*
   Navigation.cpp - Class for the vector fields navigation
   Created by Jacky M. Lui 10 June 2017.
   Works within the BUDDY system
@@ -7,25 +7,26 @@
 
 #include "Navigation.h"
 
-Navigation::Navigation(){
-   vector0x = 0;
-   vector0y = 0;
+Navigation::Navigation() {
+  vector0x = 0;
+  vector0y = 0;
 
-   vector1x = 0;
-   vector1y = 0;
+  vector1x = 0;
+  vector1y = 0;
 
-   vector2x = 0;
-   vector2y = 0;
+  vector2x = 0;
+  vector2y = 0;
 
-   vorgX = 0;
-   vorgY = 0;
+  vorgX = 0;
+  vorgY = 0;
 
-   xdirection = 0;
-   ydirection = 0;
+  xdirection = 0;
+  ydirection = 0;
 }
 
-int * Navigation::detectedObject(){
-  int objects[5] = {0,0,0,0,0}; // used for 
+int * Navigation::detectedObject() {
+  int objects[5] = {0, 0, 0, 0, 0}; // used for
+  int* objectPointer = objects;
   // Scale Everything to 100cm except for down
   if (rightSensor > 100) {
     rightSensor = 100;
@@ -44,10 +45,9 @@ int * Navigation::detectedObject(){
     objects[3] = 1;
   }
   if (downSensor < 13 || downSensor > 18) {
-    objects[4] = 1; 
+    objects[4] = 1;
   }
-
-  return objects;
+  return objectPointer;
 }
 
 // Serial.print("Range of Right is: ");
@@ -61,105 +61,69 @@ int * Navigation::detectedObject(){
 //    Serial.print("Range of Down is: ");
 //    Serial.println(*(readings+5));
 
-int* Navigation::vectorFields(int* data,int* ultrasonicReadings)
-{  
-    int vectoredData[3];
-    rightSensor = *(ultrasonicReadings+1);
-    backSensor = *(ultrasonicReadings+2);
-    leftSensor = *(ultrasonicReadings+3);
-    frontSensor = *(ultrasonicReadings+4);
-    downSensor = *(ultrasonicReadings+5);
-    
-    int * objects;
-    objects = detectedObject();
-    // Calculate direction of field0
+int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
+{
+  
+  rightSensor = *(ultrasonicReadings + 1);
+  backSensor = *(ultrasonicReadings + 2);
+  leftSensor = *(ultrasonicReadings + 3);
+  frontSensor = *(ultrasonicReadings + 4);
+  downSensor = *(ultrasonicReadings + 5);
 
-    // calculate magnitudes of three vectors
-    int v0 = 100 - leftSensor;
-    int v1 = 100 - frontSensor;
-    int v2 = 100 - rightSensor;
 
-    // calculate x and y components
-    vector0x = cos(120*PI/180);
-    vector0y = sin(120*PI/180);
+  int * objects;
+  objects = detectedObject();
+  Serial.print("US Right: ");
+  Serial.println(rightSensor);
+  Serial.print("US Back: ");
+  Serial.println(backSensor);
+  Serial.print("US Left: ");
+  Serial.println(leftSensor);
+  Serial.print("US Front: ");
+  Serial.println(frontSensor);
+  Serial.print("US Down: ");
+  Serial.println(downSensor);
+  // Calculate direction of field0
 
-    vector1x = 0;
-    vector1y = cos(90*PI/360);
+  // calculate magnitudes of three vectors
+  int v0 = leftSensor;
+  int v1 = frontSensor;
+  int v2 = rightSensor;
 
-    vector2x = cos(60*PI/360);
-    vector2y = sin(60*PI/360);
+  // calculate x and y components
+  vector0x = (cos(120 * PI / 180) * (v0 - 100))/100*21; // scale to 21cm 
+  vector0y = sin(120 * PI / 180) * (v0 - 100);
 
-    // original
-    vorgX = *data * cos(*(data+1)*PI/360);
-    vorgY = *data * sin(*(data+1)*PI/360) 
-    // 
-    xdirection = vector0x + vector1x + vector2x + vorgx;
-    ydirection = (vector0y + vector1y + vector2y + vorgy)/4;
+  vector1x = 0;
+  vector1y = sin(90 * PI / 360) * (v1 - 100);
 
-    int direction = atan2(ydirection, xdirection); 
-    vectoredData[0] = "21";
-    vectoredData[1] = direction;
-    vectoredData[2] = *(data+2);
+  vector2x = (cos(60 * PI / 360) * (v2 - 100))/100*21; // scale to 21cm
+  vector2y = sin(60 * PI / 360) * (v2 - 100);
 
-    
-    int *returnPointer = vectoredData;
-    return returnPointer;
-    // Implement Vector Fields
+  // original
+  vorgX = *data * cos(*(data + 1) * PI / 360);
+  vorgY = *data * sin(*(data + 1) * PI / 360);
+  //
+  xdirection = vector0x + vector1x + vector2x + vorgX;
+  ydirection = 21+(vector0y + vector1y + vector2y)/272*42 + vorgY;
 
-    
-//    prevrobspeed = robspeed;
-//    prevrobdirection = robdirection;
-//    prevrobspin = robspin;  
-//  
-//  // Vector Fields values
-//  
-//      
-//
-//      Serial.print("US Right: ");
-//      Serial.println(Rightsensor);
-//      Serial.print("US Back: ");
-//      Serial.println(Backsensor);
-//      Serial.print("US Left: ");
-//      Serial.println(Leftsensor);
-//      Serial.print("US Front: ");
-//      Serial.println(Frontsensor);
-//      Serial.print("US Down: ");
-//      Serial.println(Downsensor);  
-//
-//
-//      // Convert this into an angle, make sure atan2 does not equal infinity
-//      if (xdirection == 0)
-//      {
-//        if (ydirection > 0) robdirection = 180;
-//        if (ydirection < 0) robdirection = -180;
-//        else robdirection = prevrobdirection;
-//      }
-//      else
-//      {
-//        robdirection = atan2((double)ydirection,(double)xdirection); 
-//
-// 
-//        //Convert to degrees
-//        robdirection = robdirection * 180/PI;
-//        Serial.print("    robirection now ");
-//        Serial.println(robdirection); 
-//        int bufferdirection = robdirection; // used so that robdirection won't be confused in if statements.
-//        // Convert to Angular Space of Robot
-//        if (bufferdirection < 90 && bufferdirection >= 0) robdirection = 90-robdirection; 
-//        if (bufferdirection <= 180 && bufferdirection >= 90) robdirection = 360 - (robdirection - 90);
-//        if (bufferdirection < 0 && bufferdirection >= -180) robdirection = -robdirection + 90;
-//        
-//        if (robdirection == 360) robdirection = 0;
-//      }
-//        robspeed = 21;
-//      robspin = (int)robdirection;
-//      
-//    Serial.print("Speed: ");
-//    Serial.print(robspeed);
-//    Serial.print(" Direction: ");
-//    Serial.print(robdirection);
-//    SerialTransEleven.println("hello is it me you're looking for?");
-//    SerialTransEleven.println(robdirection);
-//    Serial.print(" Spin: ");
-//    Serial.println(robspin);
-  }
+  int direction = atan2(ydirection, xdirection)/PI*180;
+  int spin = *(data + 2);
+  Serial.print("xdirection ");
+  Serial.println(xdirection);
+  Serial.print("ydirection ");
+  Serial.println(ydirection);
+  int vectoredData [3];
+  vectoredData[0] = 21;
+  vectoredData[1] = direction;
+  vectoredData[2] = spin;
+
+
+  int *returnPointer;
+  returnPointer = vectoredData;
+
+  Serial.println(*(returnPointer));
+  Serial.println(*(returnPointer + 1));
+  Serial.println(*(returnPointer + 2));
+  return returnPointer;
+}
