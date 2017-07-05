@@ -35,7 +35,7 @@ void Control::runCode() {
 void Control::runTests()
 {
   //    data = MyTests.kinematics();
-  MyTests.compass();
+  int heading = MyTests.compass();
   data = MyTests.navigation();
   //  data = MyTests.forwardAndBackward();
   speed = *(data + 1);

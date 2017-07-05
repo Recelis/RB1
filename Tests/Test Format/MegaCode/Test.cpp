@@ -59,16 +59,6 @@ int* Test::ultrasonics() {
   testSensor.SensorsSetup();
   int * ultrasonicReadings;
   ultrasonicReadings = *testSensor.ultrasonicOutputs();
-//  Serial.print("Range of Right is: ");
-//  Serial.println(*(ultrasonicReadings + 1));
-//  Serial.print("Range of Back is: ");
-//  Serial.println(*(ultrasonicReadings + 2));
-//  Serial.print("Range of Left is: ");
-//  Serial.println(*(ultrasonicReadings + 3));
-//  Serial.print("Range of Front is: ");
-//  Serial.println(*(ultrasonicReadings + 4));
-//  Serial.print("Range of Down is: ");
-//  Serial.println(*(ultrasonicReadings + 5));
   return ultrasonicReadings;
 }
 
@@ -87,6 +77,24 @@ int * Test::navigation() {
 
   int * readings;
   readings = *testSensor.ultrasonicOutputs();
+  int * vdata;
+  vdata = testNavigation.vectorFields(data, readings);
+  return vdata;
+}
+
+// Serial Prints
+
+//  Serial.print("Range of Right is: ");
+//  Serial.println(*(ultrasonicReadings + 1));
+//  Serial.print("Range of Back is: ");
+//  Serial.println(*(ultrasonicReadings + 2));
+//  Serial.print("Range of Left is: ");
+//  Serial.println(*(ultrasonicReadings + 3));
+//  Serial.print("Range of Front is: ");
+//  Serial.println(*(ultrasonicReadings + 4));
+//  Serial.print("Range of Down is: ");
+//  Serial.println(*(ultrasonicReadings + 5));
+
 //  Serial.print("Range of Right is: ");
 //  Serial.println(*(readings + 1));
 //  Serial.print("Range of Back is: ");
@@ -97,17 +105,12 @@ int * Test::navigation() {
 //  Serial.println(*(readings + 4));
 //  Serial.print("Range of Down is: ");
 //  Serial.println(*(readings + 5));
-  int * vdata;
-  vdata = testNavigation.vectorFields(data, readings);
-  Serial.println(*(vdata));
-  Serial.println(*(vdata+1));
-  Serial.println(*(vdata + 2));
-  Serial.println(*(vdata + 3));
 
-  
 
-  return vdata;
-}
+//  Serial.println(*(vdata));
+//  Serial.println(*(vdata+1));
+//  Serial.println(*(vdata + 2));
+//  Serial.println(*(vdata + 3));
 
-//
+
 
