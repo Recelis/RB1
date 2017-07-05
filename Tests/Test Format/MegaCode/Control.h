@@ -22,15 +22,22 @@
 #define SET true
 #define OFF false
 
+#define SER_IN 29
+#define CLK 30
+#define L_CLK 28
+
 class Control
 {
 public:
 	Control() : BMotorControl(2,4,3), CMotorControl(7,8,6), AMotorControl(11,12,5){
-		pinMode(13, OUTPUT); // Built in LED and Iron Man LED Array 
+		pinMode(SER_IN, OUTPUT); // Iron Man LED Array 
+	  pinMode(CLK, OUTPUT);
+    pinMode(L_CLK, OUTPUT);
 	}
 	void Controlsetup();
 	void MotorController();
 	void KinematicsController();
+  void LightArray(int direction);
 	void runTests();
 	void runCode();
 	double * outvels;
@@ -59,9 +66,6 @@ private:
 	int spin;
 	int startread;
 
-	int prevspeed;
-	int prevdirection;
-	int prevspin;
   // Test 
   int direct;
 };
