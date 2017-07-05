@@ -53,7 +53,16 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   if (deepFront > 100) {
     deepFront = 100;
   }
-
+    Serial.print("US Right: ");
+  Serial.println(deepRight);
+  Serial.print("US Back: ");
+  Serial.println(deepBack);
+  Serial.print("US Left: ");
+  Serial.println(deepLeft);
+  Serial.print("US Front: ");
+  Serial.println(deepFront);
+  Serial.print("US Down: ");
+  Serial.println(deepDown);
 
   // Calculate direction of field0
 
@@ -63,14 +72,14 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   int v2 = deepRight;
 
   // calculate x and y components
-  vector0x = (cos(120 * PI / 180) * (v0 - 100)) / 100 * 21; // scale to 21cm
+  vector0x = (cos(120 * PI / 180) * (v0 - 100))/ 100 * 21; // scale to 21cm
   vector0y = sin(120 * PI / 180) * (v0 - 100);
 
   vector1x = 0;
-  vector1y = sin(90 * PI / 360) * (v1 - 100);
+  vector1y = sin(90 * PI / 180) * (v1 - 100);
 
-  vector2x = (cos(60 * PI / 360) * (v2 - 100)) / 100 * 21; // scale to 21cm
-  vector2y = sin(60 * PI / 360) * (v2 - 100);
+  vector2x = (cos(60 * PI / 180) * (v2 - 100))/ 100 * 21; // scale to 21cm  
+  vector2y = sin(60 * PI / 180) * (v2 - 100);
 
   // original
   vorgX = *data * cos(*(data + 1) * PI / 180);
@@ -78,8 +87,9 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   //
 
   xdirection = vector0x + vector1x + vector2x + vorgX;
-  ydirection = 21 + (vector0y + vector1y + vector2y) / 272 * 42 + vorgY;
-
+  ydirection = 10+(vector0y +vector1y+  vector2y) / 272 * 42 + vorgY;
+  String x = String(vector0x) + " " + String(vector2x);
+  Serial.println(x);
   int direction = atan2(ydirection, xdirection) / PI * 180;
   int spin = *(data + 2);
   Serial.print("xdirection ");
@@ -102,15 +112,6 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   return returnPointer;
 }
 
-//  Serial.print("US Right: ");
-//  Serial.println(deepRight);
-//  Serial.print("US Back: ");
-//  Serial.println(deepBack);
-//  Serial.print("US Left: ");
-//  Serial.println(deepLeft);
-//  Serial.print("US Front: ");
-//  Serial.println(deepFront);
-//  Serial.print("US Down: ");
-//  Serial.println(deepDown);
+
 
 

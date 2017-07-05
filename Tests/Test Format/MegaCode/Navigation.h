@@ -27,17 +27,17 @@ class Navigation
     int xdirection;
     int ydirection;
 
-    int vector0x;
-    int vector0y;
+    double vector0x;
+    double vector0y;
 
-    int vector1x;
-    int vector1y;
+    double vector1x;
+    double vector1y;
 
-    int vector2x;
-    int vector2y;
+    double vector2x;
+    double vector2y;
 
-    int vorgX;
-    int vorgY;
+    double vorgX;
+    double vorgY;
 };
 
 #endif
