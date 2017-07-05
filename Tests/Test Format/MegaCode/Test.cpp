@@ -99,10 +99,10 @@ int * Test::navigation() {
 //  Serial.println(*(readings + 5));
   int * vdata;
   vdata = testNavigation.vectorFields(data, readings);
-
-//  Serial.println(*(vdata + 1));
-//  Serial.println(*(vdata + 2));
-//  Serial.println(*(vdata + 3));
+  Serial.println(*(vdata));
+  Serial.println(*(vdata+1));
+  Serial.println(*(vdata + 2));
+  Serial.println(*(vdata + 3));
 
   
 

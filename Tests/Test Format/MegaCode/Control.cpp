@@ -38,9 +38,9 @@ void Control::runTests()
     MyTests.compass();
     data = MyTests.navigation();
 //  data = MyTests.forwardAndBackward();
-  speed = *data;
-  direction = *(data+1);
-  spin = *(data+2);
+  speed = *(data+1);
+  direction = *(data+2);
+  spin = *(data+3);
   Serial.print("Speed: ");
   Serial.println(speed);
   Serial.print("Direction: ");
