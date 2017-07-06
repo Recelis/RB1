@@ -10,17 +10,22 @@
   data between Serial Monitor and bluetooth module.
 */
 #include "BluetoothClass.h"
-
+#include "Switch.h"
 BluetoothClass mybluetooth;
+Switch mySwitch;
 
 void setup()
 {
+  mySwitch.setupPins();
   mybluetooth.setupBlue();
   mybluetooth.connectToRB1();
+  
 }
 
 void loop(){
   mybluetooth.sendReceiveData();
+  mySwitch.readPins();
+  Serial.println(mySwitch.calculateDirection());
 }
 
 //#include <SoftwareSerial.h>

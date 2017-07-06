@@ -1,5 +1,5 @@
 /*
-  bluetooth.h - Library for bluesmirf bluetooth Module.
+  BluetoothClass.h - Library for bluesmirf bluetooth Module.
   Created by Jacky, Jul 6, 2017.
 */
 

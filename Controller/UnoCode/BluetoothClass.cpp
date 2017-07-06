@@ -16,7 +16,7 @@ void BluetoothClass::setupBlue()
   delay(1000);  // Short delay, wait for the Mate to send back CMD
   bluetooth.println("U,9600,N");  // Temporarily Change the baudrate to 9600, no parity
   // 115200 can be too fast at times for NewSoftSerial to relay the data reliably
-  
+  delay(1000);
   bluetooth.begin(9600);  // Start bluetooth serial at 9600
   
 }
@@ -26,10 +26,10 @@ void BluetoothClass::connectToRB1()
   bluetooth.print("$");
   bluetooth.print("$");
   bluetooth.print("$");
-  delay(100);
+  delay(1000);
   bluetooth.println("C,000666604534");
   Serial.println("sent out connection signal");
-  delay(1000);
+  delay(10000);
 }
 
 
@@ -39,6 +39,8 @@ void BluetoothClass::sendReceiveData()
   {
     // Send any characters the bluetooth prints to the serial monitor
     Serial.print((char)bluetooth.read());
+
+    // read data to memory
   }
   if (Serial.available()) // If stuff was typed in the serial monitor
   {
