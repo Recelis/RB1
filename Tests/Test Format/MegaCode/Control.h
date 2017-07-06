@@ -17,6 +17,7 @@
 #include "Kinematics.h"
 #include "Sensors.h"
 #include "Test.h"
+#include "BluetoothClass.h"
 #include <math.h>
 
 #define SET true

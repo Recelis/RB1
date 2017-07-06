@@ -9,6 +9,9 @@
 #include "Control.h"
 
 
+BluetoothClass mybluetooth;
+
+
 void Control::Controlsetup()
 {
   Serial.begin(9600); // Begin the serial monitor at 9600bps
@@ -29,7 +32,7 @@ void Control::runCode() {
   int *ultrasonicReadings;
   ultrasonicReadings = SensorData.ultrasonicOutputs();
   int heading = SensorData.compass();
-
+  
 }
 
 void Control::runTests()
@@ -48,6 +51,7 @@ void Control::runTests()
   Serial.print("Spin: ");
   Serial.println(spin);
   LightArray(direction);
+  mybluetooth.sendReceiveData();
 }
 
 void Control::LightArray(int direction) {
