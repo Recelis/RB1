@@ -12,7 +12,7 @@
 class BluetoothClass
 {
   public:
-    BluetoothClass():bluetooth(1,0){};
+    BluetoothClass():bluetooth(0,1){};
     void setupBlue();
     void sendReceiveData();
     
