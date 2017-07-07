@@ -1,5 +1,5 @@
 /*
-  bluetooth.h - Library for bluesmirf bluetooth Module.
+  BluetoothClass.h - Library for bluesmirf bluetooth Module.
   Created by Jacky, Jul 6, 2017.
 */
 
@@ -12,10 +12,10 @@
 class BluetoothClass
 {
   public:
-    BluetoothClass():bluetooth(0,1){};
+    BluetoothClass():bluetooth(2,3){};
     void setupBlue();
     void sendReceiveData();
-    
+    void connectToRB1();
 
     private:
     SoftwareSerial bluetooth;
