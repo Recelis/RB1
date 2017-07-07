@@ -9,7 +9,6 @@
 #include "Control.h"
 
 
-BluetoothClass mybluetooth;
 
 
 void Control::Controlsetup()
@@ -24,7 +23,7 @@ void Control::Controlsetup()
   speed = 0;
   direction = 0;
   spin = 0;
-
+  mybluetooth.setupBlue();
 }
 
 void Control::runCode() {
@@ -32,64 +31,75 @@ void Control::runCode() {
   int *ultrasonicReadings;
   ultrasonicReadings = SensorData.ultrasonicOutputs();
   int heading = SensorData.compass();
-  
+
 }
 
 void Control::runTests()
 {
-  //    data = MyTests.kinematics();
-  int heading = MyTests.compass();
-  data = MyTests.navigation();
-  //  data = MyTests.forwardAndBackward();
-  speed = *(data + 1);
-  direction = *(data + 2);
-  spin = *(data + 3);
-  Serial.print("Speed: ");
-  Serial.println(speed);
-  Serial.print("Direction: ");
-  Serial.println(direction);
-  Serial.print("Spin: ");
-  Serial.println(spin);
-  LightArray(direction);
-  mybluetooth.sendReceiveData();
+  String raw = mybluetooth.sendReceiveData();
+  data = processData(raw);
+  //  MyTests.compass();
+  //  data = MyTests.navigation();
+  //  //  data = MyTests.forwardAndBackward();
+    speed = *(data + 1);
+    direction = *(data + 2);
+    spin = *(data + 3);
+//    Serial.print("Speed: ");
+//    Serial.println(speed);
+//    Serial.print("Direction: ");
+//    Serial.println(direction);
+//    Serial.print("Spin: ");
+//    Serial.println(spin);
+  //  LightArray(direction);
+
 }
 
-void Control::LightArray(int direction) {
-  // position of light
-  int lightMask[8] = {1, 1, 1, 1, 1, 1, 1, 1};
-  if (direction < 0) direction = 360 - 90;
-  if (direction < 22.5 && direction >= 337.5) lightMask[1] = 0;
-  else if (direction >= 22.5 && direction < 67.5) lightMask[0] = 0;
-  else if (direction >= 67.5 && direction < 112.5) lightMask[7]= 0;
-  else if (direction >= 112.5 && direction < 157.5) lightMask[4] = 0;
-  else if (direction >= 157.5 && direction < 202.5) lightMask[6] = 0;
-  else if (direction >= 202.5 && direction < 247.5) lightMask[5] = 0;
-  else if (direction >= 247.5 && direction < 292.5) lightMask[3] = 0;
-  else if (direction >= 292.5 && direction < 337.5) lightMask[2] = 0;
-  else {};
-  
-  digitalWrite(L_CLK, LOW);
-  digitalWrite(CLK, LOW);
-  digitalWrite(SER_IN, LOW);
-  for (int ii = 0; ii < 8; ii++) {
-    Serial.println(ii);
-    digitalWrite(CLK, LOW);
-    delay(10);
-    if (lightMask[ii] == 0) {
-      Serial.println("low");
-      digitalWrite(SER_IN, LOW);
+int* Control::processData(String reading) {
+  int blueData [3];
+  String stringSpeed = "";
+  String stringDirection = "";
+  bool readingSpeedFlag = false;
+  bool readingDirectionFlag = false;
+  if (reading =="") { // just reuse old values
+    blueData[0] = 0; // placeholder
+    blueData[1] = speed;
+    blueData[2] = direction;
+    blueData[3] = spin;
+  } else {
+//    Serial.println(reading);
+    for (int ii = 0; ii < reading.length(); ii++) {
+      // getting speed
+      if (reading[ii] == 'S') {
+        readingSpeedFlag = true;
+      }
+      if (readingSpeedFlag == true) {
+        if (reading[ii] == '\r' || reading[ii] == '\n' || reading[ii] == ' ') {
+          blueData[1] = stringSpeed.toInt();
+          readingSpeedFlag = false;
+        }
+        else stringSpeed += reading[ii];
+      }
+      // getting direction
+      if (reading[ii] == 'D') {
+        readingDirectionFlag = true;
+      }
+      if (readingDirectionFlag == true) {
+        if (reading[ii] == '\r' || reading[ii] == '\n' || reading[ii] == ' ') {
+          blueData[2] = stringDirection.toInt();
+          readingDirectionFlag = false;
+        }
+        else stringDirection += reading[ii];
+      }
+      blueData[0] = 0;
+      blueData[3] = 0;
     }
-    else {
-      Serial.println("HIGH");
-      digitalWrite(SER_IN, HIGH);
-    }
-    digitalWrite(CLK, HIGH);
-    delay(10);
   }
-  digitalWrite(L_CLK, HIGH);
-  delay(10);
-
+  int *processPoint;
+  processPoint = blueData;
+  return processPoint;
 }
+
+
 
 void Control::KinematicsController()
 {
@@ -143,5 +153,42 @@ void Control::MotorController()
   //   Serial.print("pow w3 ");
   //   Serial.println(wheelpow3);
   // Remember that without full power, not all of the wheels will move
+}
+
+void Control::LightArray(int direction) {
+  // position of light
+  int lightMask[8] = {1, 1, 1, 1, 1, 1, 1, 1};
+  if (direction < 0) direction = 360 - 90;
+  if (direction < 22.5 && direction >= 337.5) lightMask[1] = 0;
+  else if (direction >= 22.5 && direction < 67.5) lightMask[0] = 0;
+  else if (direction >= 67.5 && direction < 112.5) lightMask[7] = 0;
+  else if (direction >= 112.5 && direction < 157.5) lightMask[4] = 0;
+  else if (direction >= 157.5 && direction < 202.5) lightMask[6] = 0;
+  else if (direction >= 202.5 && direction < 247.5) lightMask[5] = 0;
+  else if (direction >= 247.5 && direction < 292.5) lightMask[3] = 0;
+  else if (direction >= 292.5 && direction < 337.5) lightMask[2] = 0;
+  else {};
+
+  digitalWrite(L_CLK, LOW);
+  digitalWrite(CLK, LOW);
+  digitalWrite(SER_IN, LOW);
+  for (int ii = 0; ii < 8; ii++) {
+    Serial.println(ii);
+    digitalWrite(CLK, LOW);
+    delay(10);
+    if (lightMask[ii] == 0) {
+      Serial.println("low");
+      digitalWrite(SER_IN, LOW);
+    }
+    else {
+      Serial.println("HIGH");
+      digitalWrite(SER_IN, HIGH);
+    }
+    digitalWrite(CLK, HIGH);
+    delay(10);
+  }
+  digitalWrite(L_CLK, HIGH);
+  delay(10);
+
 }
 

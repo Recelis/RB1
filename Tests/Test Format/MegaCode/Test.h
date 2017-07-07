@@ -19,7 +19,7 @@ class Test
    int* forwardAndBackward();
    int* kinematics();
    int* ultrasonics();
-   void compass();
+   int compass();
    Sensors testSensor;
    Navigation testNavigation;
    int* navigation();

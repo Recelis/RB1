@@ -3,23 +3,26 @@
   Created by Jacky, Jul 6, 2017.
 */
 
-#include <SoftwareSerial.h> 
+#include <SoftwareSerial.h>
+#include <string.h>
 #include "Arduino.h"
 
 #ifndef Bluetooth_h
 #define Bluetooth_h
 
+
 class BluetoothClass
 {
   public:
-    BluetoothClass():bluetooth(1,0){};
-    void setupBlue();
-    void sendReceiveData();
-    
+    BluetoothClass():bluetooth(50,51){};
 
-    private:
-    SoftwareSerial bluetooth;
-    
+    void setupBlue();
+    String sendReceiveData();
+    String myBuffer;
+    String output;
+  private:
+   SoftwareSerial bluetooth;
+
 };
 
 #endif

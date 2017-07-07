@@ -62,10 +62,11 @@ int* Test::ultrasonics() {
   return ultrasonicReadings;
 }
 
-void Test::compass() {
+int Test::compass() {
   int heading = testSensor.compass();
   Serial.print("heading is: ");
   Serial.println(heading);
+  return heading;
 }
 
 int * Test::navigation() {
