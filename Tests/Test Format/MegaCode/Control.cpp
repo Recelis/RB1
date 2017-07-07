@@ -39,7 +39,7 @@ void Control::runTests()
 
   char* raw = mybluetooth.sendReceiveData();
   for (int ii = 0; ii < 20; ii++) {
-//    Serial.print(*(raw + ii));
+    //    Serial.print(*(raw + ii));
   }
   data = processData(raw);
   //  MyTests.compass();
@@ -48,64 +48,77 @@ void Control::runTests()
   speed = *(data + 1);
   direction = *(data + 2);
   spin = *(data + 3);
-//  Serial.print("Speed: ");
-//  Serial.println(speed);
-//  Serial.print("Direction: ");
-//  Serial.println(direction);
-//  Serial.print("Spin: ");
-//  Serial.println(spin);
+  //  Serial.print("Speed: ");
+  //  Serial.println(speed);
+  //  Serial.print("Direction: ");
+  //  Serial.println(direction);
+  //  Serial.print("Spin: ");
+  //  Serial.println(spin);
   //  LightArray(direction);
 
 }
 
 int* Control::processData(char* reading) {
   int blueData [3];
-  char stringSpeed[2];
-  char stringDirection[2];
+  char stringSpeed[10];
+  char stringDirection[10];
   bool readingSpeedFlag = false;
   bool readingDirectionFlag = false;
   int speedCount = 0;
+  int directCount = 0;
   // placeholder values
   blueData[0] = 0; // placeholder
   blueData[1] = speed;
   blueData[2] = direction;
   blueData[3] = spin;
+  char * pEnd;
+  char * pdEnd;
   for (int ii = 0; ii < 20; ii++) {
+    
+    char scanValue = *(reading + ii);
+
     // getting speed
-    char scanValue = *(reading+ii);
-    if (scanValue== 'S') {
+    if (scanValue == 'S') {
       readingSpeedFlag = true;
+      continue;
     }
     if (readingSpeedFlag == true) {
-
       if (scanValue == '\r' || scanValue == '\n' || scanValue == ' ') {
-        blueData[1] = atoi(stringSpeed);
-        Serial.println(atoi(stringSpeed));
+        blueData[1] = strtol(stringSpeed, NULL, 10);
+        Serial.println(blueData[1]);
         speedCount = 0;
         readingSpeedFlag = false;
+        memset(stringSpeed,'-',10);
       }
       else {
-        stringSpeed[speedCount]= scanValue;
+        stringSpeed[speedCount] = scanValue;
         speedCount++;
       }
     }
-//    // getting direction
-//    if (reading[ii] == "D") {
-//      readingDirectionFlag = true;
-//    }
-//    if (readingDirectionFlag == true) {
-//      if (reading[ii] == '\r' || reading[ii] == '\n' || reading[ii] == ' ') {
-//        blueData[2] = stringDirection.toInt();
-//        readingDirectionFlag = false;
-//      }
-//      else stringDirection += reading[ii];
-//    }
-//    blueData[0] = 0;
-//    blueData[3] = 0;
+
+    
+    // getting direction
+    if (scanValue == 'D') {
+      readingDirectionFlag = true;
+      continue;
+    }
+    if (readingDirectionFlag == true) {
+      if (scanValue == '\r' || scanValue == '\n' || scanValue == ' ') {
+        blueData[2] = strtol(stringDirection,NULL,10);
+        Serial.println(blueData[2]);
+        directCount = 0;
+        readingDirectionFlag = false;
+        memset(stringDirection,'-',10);
+      }
+      else {
+        stringDirection[directCount] = scanValue;
+        directCount++;
+      }
+    }
   }
   int *processPoint;
   processPoint = blueData;
-//  Serial.println(*(processPoint + 1));
+  //  Serial.println(*(processPoint + 1));
   return processPoint;
 }
 
