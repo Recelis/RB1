@@ -17,9 +17,10 @@ class BluetoothClass
     BluetoothClass():bluetooth(50,51){};
 
     void setupBlue();
-    String sendReceiveData();
-    String myBuffer;
-    String output;
+    char* sendReceiveData();
+    char myBuffer[20];
+    char output[20];
+    int index;
   private:
    SoftwareSerial bluetooth;
 

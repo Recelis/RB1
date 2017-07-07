@@ -18,36 +18,43 @@ void BluetoothClass::setupBlue()
   // 115200 can be too fast at times for NewSoftSerial to relay the data reliably
   bluetooth.begin(9600);  // Start bluetooth serial at 9600
   Serial.println("setup");
+  index = 0;
 }
 
 
 
-String BluetoothClass::sendReceiveData()
+char* BluetoothClass::sendReceiveData()
 {
-  if (bluetooth.available()) // If the bluetooth sent any characters
-  {
-    // Send any characters the bluetooth prints to the serial monitor
-    char inputChar = (char)bluetooth.read();
-//    Serial.print(inputChar);
-     myBuffer+= inputChar;
-     if (inputChar == '\n'){
-        output = myBuffer;
-//      Serial.println("**************************************************************************");
-      Serial.print(output);
-//      Serial.println("**************************************************************************");
-      myBuffer = "";
-      return output;
-     } else{
-      output = "";
-     }
-  }
   if (Serial.available()) // If stuff was typed in the serial monitor
   {
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
 
   }
-  return "";
+  if (bluetooth.available()) // If the bluetooth sent any characters
+  {
+    // Send any characters the bluetooth prints to the serial monitor
+    char inputChar = (char)bluetooth.read();
+    //    Serial.print(inputChar);
+
+    myBuffer[index] = inputChar;
+    index++;
+    if (inputChar == '\n') {
+      strncpy(output, myBuffer, 20);
+      index = 0;
+      for (int ii = 0; ii < 20; ii++) {
+        myBuffer[ii] = "";
+//        Serial.print(output[ii]);
+      }
+    } else {
+      for (int ii = 0; ii < 20; ii++) {
+        output[ii] = "";
+      }
+    }
+  }
+  char* point;
+  point = output;
+  return point;
   // and loop forever and ever!
 }
 

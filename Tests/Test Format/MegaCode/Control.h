@@ -19,6 +19,8 @@
 #include "Test.h"
 #include "BluetoothClass.h"
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define SET true
 #define OFF false
@@ -38,7 +40,7 @@ class Control
     void Controlsetup();
     void MotorController();
     void KinematicsController();
-    int * processData(String reading);
+    int * processData(char* reading);
     void LightArray(int direction);
     void runTests();
     void runCode();
@@ -61,14 +63,13 @@ class Control
     int wheelpow3;
     int lightcount;
     String serialDataIn;
-
     char inbyte;
     int counter;
     int speed;
     int direction;
     int spin;
     int startread;
-
+    
     // Test
     int direct;
 };
