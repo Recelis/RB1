@@ -62,23 +62,28 @@ int* Test::ultrasonics() {
   return ultrasonicReadings;
 }
 
-void Test::compass() {
+int Test::compass() {
   int heading = testSensor.compass();
   Serial.print("heading is: ");
   Serial.println(heading);
+  return heading;
 }
 
-int * Test::navigation() {
+int * Test::navigation(int * commandValues) {
   // assume that computer is sending these values to RB1
-  int data[3];
-  data[0] = 21;
-  data[1] = 90;
-  data[2] = 0;
-
+  int data[4];
+    data[1] = *(commandValues + 1);
+    data[2] = *(commandValues + 2);
+    data[3] = *(commandValues + 3);
+//  data[1] = 21;
+//  data[2] = 90;
+//  data[3] = 0;
   int * readings;
   readings = *testSensor.ultrasonicOutputs();
+
   int * vdata;
   vdata = testNavigation.vectorFields(data, readings);
+
   return vdata;
 }
 
@@ -95,16 +100,16 @@ int * Test::navigation() {
 //  Serial.print("Range of Down is: ");
 //  Serial.println(*(ultrasonicReadings + 5));
 
-//  Serial.print("Range of Right is: ");
-//  Serial.println(*(readings + 1));
-//  Serial.print("Range of Back is: ");
+//    Serial.print("Range of Right is: ");
 //  Serial.println(*(readings + 2));
-//  Serial.print("Range of Left is: ");
+//  Serial.print("Range of Back is: ");
 //  Serial.println(*(readings + 3));
-//  Serial.print("Range of Front is: ");
+//  Serial.print("Range of Left is: ");
 //  Serial.println(*(readings + 4));
-//  Serial.print("Range of Down is: ");
+//  Serial.print("Range of Front is: ");
 //  Serial.println(*(readings + 5));
+//  Serial.print("Range of Down is: ");
+//  Serial.println(*(readings + 6));
 
 
 //  Serial.println(*(vdata));

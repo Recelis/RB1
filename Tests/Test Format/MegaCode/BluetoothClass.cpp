@@ -1,5 +1,5 @@
 /*
-  bluetooth.cpp - Library for bluetooth  
+  bluetooth.cpp - Library for bluetooth
   Created by Jacky M. Lui 6 July 2017.
 */
 
@@ -17,36 +17,58 @@ void BluetoothClass::setupBlue()
   bluetooth.println("U,9600,N");  // Temporarily Change the baudrate to 9600, no parity
   // 115200 can be too fast at times for NewSoftSerial to relay the data reliably
   bluetooth.begin(9600);  // Start bluetooth serial at 9600
+  Serial.println("setup");
+  index = 0;
 }
 
 
 
-void BluetoothClass::sendReceiveData()
+char* BluetoothClass::sendReceiveData()
 {
-  if(bluetooth.available())  // If the bluetooth sent any characters
-  {
-    // Send any characters the bluetooth prints to the serial monitor
-    Serial.print((char)bluetooth.read());  
-  }
-  if(Serial.available())  // If stuff was typed in the serial monitor
+  if (Serial.available()) // If stuff was typed in the serial monitor
   {
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
+
   }
+  if (bluetooth.available()) // If the bluetooth sent any characters
+  {
+    // Send any characters the bluetooth prints to the serial monitor
+    char inputChar = (char)bluetooth.read();
+    //    Serial.print(inputChar);
+
+    myBuffer[index] = inputChar;
+    index++;
+    if (inputChar == '\n') {
+      strncpy(output, myBuffer, 20);
+      index = 0;
+      for (int ii = 0; ii < 20; ii++) {
+        myBuffer[ii] = "";
+//        Serial.print(output[ii]);
+      }
+    } else {
+      for (int ii = 0; ii < 20; ii++) {
+        output[ii] = "";
+      }
+    }
+  }
+  char* point;
+  point = output;
+  return point;
   // and loop forever and ever!
 }
 
 /*
   Example Bluetooth Serial Passthrough Sketch
- by: Jim Lindblom
- SparkFun Electronics
- date: February 26, 2013
- license: Public domain
+  by: Jim Lindblom
+  SparkFun Electronics
+  date: February 26, 2013
+  license: Public domain
 
- This example sketch converts an RN-42 bluetooth module to
- communicate at 9600 bps (from 115200), and passes any serial
- data between Serial Monitor and bluetooth module.
- */
+  This example sketch converts an RN-42 bluetooth module to
+  communicate at 9600 bps (from 115200), and passes any serial
+  data between Serial Monitor and bluetooth module.
+*/
 
 
 //int bluetoothTx = 2;  // TX-O pin of bluetooth mate, Arduino D2
@@ -70,6 +92,6 @@ void BluetoothClass::sendReceiveData()
 //
 //void loop()
 //{
-// 
+//
 //}
 

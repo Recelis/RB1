@@ -22,56 +22,13 @@ void Sensors::SensorsSetup()
   Leftrange = -1;
   Frontrange = -1;
   Downrange = -1;
-  long ultrasonicReturn[6];
-  for (int ii = 0; ii < 6; ii++)
+  long ultrasonicReturn[7];
+  for (int ii = 0; ii < 7; ii++)
   {
     ultrasonicReturn[ii] = -1;
   }
-//  //// Configure Pins
-//  pinMode(IR_F, INPUT);
-//  pinMode(IR_R, INPUT);
-//  pinMode(IR_B, INPUT);
-//  pinMode(IR_L, INPUT);
-//  // Turn on Pullup resistors
-//  digitalWrite(IR_F, HIGH);
-//  digitalWrite(IR_R, HIGH);
-//  digitalWrite(IR_B, HIGH);
-//  digitalWrite(IR_L, HIGH);
-//
-//  int IRvalues[4];
-//  for (int ii = 0; ii < 4; ii++)
-//  {
-//    IRvalues[ii] = 1;
-//  }
 }
 
-//int * Sensors::IR_Beacon()
-//{
-//  IRvalues[0] = digitalRead(IR_F);
-//  IRvalues[1] = digitalRead(IR_R);
-//  IRvalues[2] = digitalRead(IR_B);
-//  IRvalues[3] = digitalRead(IR_L);
-//  return IRvalues;
-//}
-//
-//void Sensors::BluetoothCon()
-//{
-//  if(bluetooth.available()) // If the bluetooth sent any characters
-//  {
-//    //Send any characters the bluetooth prints to the serial monitor
-//    Serial.print((char)bluetooth.read());
-//    digitalWrite(13, LOW);
-//    Serial.print("bluetooth received");
-//    bluetooth.print("bluetooth received");
-//  }
-//  if(Serial.available())
-//  {
-//    // Send any characters the Serial monitor prints to the bluetooth
-//    bluetooth.print((char)Serial.read());
-//    digitalWrite(13, LOW);
-//    Serial.println("Serial Received");
-//  }
-//}
 
 void Sensors::ultrasonicCon()
 {
@@ -85,11 +42,13 @@ void Sensors::ultrasonicCon()
 int* Sensors::ultrasonicOutputs()
 {
    ultrasonicCon();
-   ultrasonicReturn[1] = (int) Rightrange;
-   ultrasonicReturn[2] = (int) Backrange;
-   ultrasonicReturn[3] = (int) Leftrange;
-   ultrasonicReturn[4] = (int) Frontrange;
-   ultrasonicReturn[5] = (int) Downrange;
+   ultrasonicReturn[0] = 0;
+//   ultrasonicReturn[1] = 0;
+   ultrasonicReturn[2] =  Rightrange;
+   ultrasonicReturn[3] =  Backrange;
+   ultrasonicReturn[4] =  Leftrange;
+   ultrasonicReturn[5] =  Frontrange;
+   ultrasonicReturn[6] =  Downrange;
    return ultrasonicReturn;
 }
 

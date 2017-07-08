@@ -18,12 +18,13 @@ class Ultrasonic
   public:
     Ultrasonic(int TP, int EP);
     long Timing();
-    long Ranging(int sys);
+    int Ranging(int sys);
 
     private:
     int Trig_pin;
     int Echo_pin;
-    long  duration,distacne_cm,distance_inc;
+    long  duration;
+    int distacne_cm,distance_inc;
     
 };
 

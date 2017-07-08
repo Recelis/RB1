@@ -5,6 +5,18 @@
   date: February 26, 2013
   license: Public domain
 
+<<<<<<< HEAD
+ This example sketch converts an RN-42 bluetooth module to
+ communicate at 9600 bps (from 115200), and passes any serial
+ data between Serial Monitor and bluetooth module.
+ */
+#include <SoftwareSerial.h>  
+
+int bluetoothTx = 50;  // TX-O pin of bluetooth mate, Arduino D2
+int bluetoothRx = 51;  // RX-I pin of bluetooth mate, Arduino D3
+
+SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
+=======
   This example sketch converts an RN-42 bluetooth module to
   communicate at 9600 bps (from 115200), and passes any serial
   data between Serial Monitor and bluetooth module.
@@ -13,6 +25,7 @@
 #include "Switch.h"
 BluetoothClass mybluetooth;
 Switch mySwitch;
+>>>>>>> 7085f04fb933c6fb78fb598995774aa8ca938b24
 
 void setup()
 {
