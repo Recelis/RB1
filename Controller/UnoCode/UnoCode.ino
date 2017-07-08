@@ -23,9 +23,10 @@ void setup()
 }
 
 void loop(){
-  mybluetooth.sendReceiveData();
   mySwitch.readPins();
-  Serial.println(mySwitch.calculateDirection());
+  int speed = mySwitch.getSpeed();
+  int direction = mySwitch.calculateDirection();
+  mybluetooth.sendReceiveData(speed, direction);
 }
 
 //#include <SoftwareSerial.h>
