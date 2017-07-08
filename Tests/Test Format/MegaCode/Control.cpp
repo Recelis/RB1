@@ -39,10 +39,8 @@ void Control::runTests()
 
   char* raw = mybluetooth.sendReceiveData();
   procData = processData(raw);
-//  for (int ii = 1; ii < 4; ii++) {
-//        Serial.println(*(procData + ii));
-//  }
-  //  MyTests.compass();
+
+  MyTests.compass();
   data = MyTests.navigation(procData);
   //  //  data = MyTests.forwardAndBackward();
   speed = *(data + 1);
