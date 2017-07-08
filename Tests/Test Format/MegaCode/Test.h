@@ -22,7 +22,7 @@ class Test
    int compass();
    Sensors testSensor;
    Navigation testNavigation;
-   int* navigation();
+   int* navigation(int * commandValues);
  private:
   int direct;
   int count;

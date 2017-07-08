@@ -28,11 +28,11 @@ Navigation::Navigation() {
 int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
 {
 
-  rightSensor = *(ultrasonicReadings + 1);
-  backSensor = *(ultrasonicReadings + 2);
-  leftSensor = *(ultrasonicReadings + 3);
-  frontSensor = *(ultrasonicReadings + 4);
-  downSensor = *(ultrasonicReadings + 5);
+  rightSensor = *(ultrasonicReadings + 2);
+  backSensor = *(ultrasonicReadings + 3);
+  leftSensor = *(ultrasonicReadings + 4);
+  frontSensor = *(ultrasonicReadings + 5);
+  downSensor = *(ultrasonicReadings + 6);
 
   int deepRight = rightSensor;
   int deepBack = backSensor;
@@ -50,20 +50,16 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   if (deepLeft > 100) {
     deepLeft = 100;
   }
-  if (deepFront > 100) {
-    deepFront = 100;
+  if (deepFront > 50) {
+    deepFront = 50;
   }
-    Serial.print("US Right: ");
-  Serial.println(deepRight);
-  Serial.print("US Back: ");
-  Serial.println(deepBack);
-  Serial.print("US Left: ");
-  Serial.println(deepLeft);
-  Serial.print("US Front: ");
-  Serial.println(deepFront);
-  Serial.print("US Down: ");
-  Serial.println(deepDown);
 
+  Serial.print("right");
+  Serial.println(deepRight);
+  Serial.print("left");
+  Serial.println(deepLeft);
+  Serial.print("front");
+  Serial.println(deepFront);
   // Calculate direction of field0
 
   // calculate magnitudes of three vectors
@@ -82,36 +78,51 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   vector2y = sin(60 * PI / 180) * (v2 - 100);
 
   // original
-  vorgX = *data * cos(*(data + 1) * PI / 180);
-  vorgY = *data * sin(*(data + 1) * PI / 180);
+  vorgX = *(data+1) * cos(*(data + 2) * PI / 180);
+  vorgY = *(data+1) * sin(*(data + 2) * PI / 180);
   //
 
   xdirection = vector0x + vector1x + vector2x + vorgX;
-  ydirection = 10+(vector0y +vector1y+  vector2y) / 272 * 42 + vorgY;
-  String x = String(vector0x) + " " + String(vector2x);
-  Serial.println(x);
-  int direction = atan2(ydirection, xdirection) / PI * 180;
-  int spin = *(data + 2);
-  Serial.print("xdirection ");
+  ydirection = 21+(vector0y +vector1y+  vector2y) / 272 * 42 + vorgY;
+    Serial.print("xdirection ");
   Serial.println(xdirection);
   Serial.print("ydirection ");
   Serial.println(ydirection);
+
+  String x = String(vector0x) + " " + String(vector2x);
+  Serial.println(x);
+  int direction = atan2(ydirection, xdirection) / PI * 180;
+  int spin = *(data + 3);
+
   int vectoredData [4];
   vectoredData[0] = 1; // placeholder value
-  vectoredData[1] = 21;
+  vectoredData[1] = *(data+1);
   vectoredData[2] = direction;
   vectoredData[3] = spin;
-
-
+  Serial.println(*(data+1));
+  Serial.println(*(data + 2));
+  Serial.println(*(data + 3));
   int *returnPointer;
   returnPointer = vectoredData;
-
-  Serial.println(*(returnPointer+1));
+    Serial.println(*(returnPointer+1));
   Serial.println(*(returnPointer + 2));
   Serial.println(*(returnPointer + 3));
   return returnPointer;
 }
 
+
+
+
+//    Serial.print("US Right: ");
+//  Serial.println(deepRight);
+//  Serial.print("US Back: ");
+//  Serial.println(deepBack);
+//  Serial.print("US Left: ");
+//  Serial.println(deepLeft);
+//  Serial.print("US Front: ");
+//  Serial.println(deepFront);
+//  Serial.print("US Down: ");
+//  Serial.println(deepDown);
 
 
 

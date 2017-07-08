@@ -36,11 +36,11 @@ class Sensors
     Ultrasonic ultrasonic_L;
     Ultrasonic ultrasonic_F;
     Compass onboardCompass;
-    long Rightrange;
-    long Backrange;
-    long Leftrange;
-    long Frontrange;
-    long Downrange;
+    int Rightrange;
+    int Backrange;
+    int Leftrange;
+    int Frontrange;
+    int Downrange;
 //    int bluetoothTx;
 //    int bluetoothRx;
     int * ultrasonicReturn;

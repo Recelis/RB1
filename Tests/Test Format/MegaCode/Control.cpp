@@ -38,28 +38,28 @@ void Control::runTests()
 {
 
   char* raw = mybluetooth.sendReceiveData();
-  for (int ii = 0; ii < 20; ii++) {
-    //    Serial.print(*(raw + ii));
-  }
-  data = processData(raw);
+  procData = processData(raw);
+//  for (int ii = 1; ii < 4; ii++) {
+//        Serial.println(*(procData + ii));
+//  }
   //  MyTests.compass();
-  //  data = MyTests.navigation();
+  data = MyTests.navigation(procData);
   //  //  data = MyTests.forwardAndBackward();
   speed = *(data + 1);
   direction = *(data + 2);
   spin = *(data + 3);
-  //  Serial.print("Speed: ");
-  //  Serial.println(speed);
-  //  Serial.print("Direction: ");
-  //  Serial.println(direction);
-  //  Serial.print("Spin: ");
-  //  Serial.println(spin);
-  //  LightArray(direction);
+  Serial.print("Speed: ");
+  Serial.println(speed);
+  Serial.print("Direction: ");
+  Serial.println(direction);
+  Serial.print("Spin: ");
+  Serial.println(spin);
+  LightArray(direction);
 
 }
 
 int* Control::processData(char* reading) {
-  int blueData [3];
+  int blueData [4];
   char stringSpeed[10];
   char stringDirection[10];
   bool readingSpeedFlag = false;
@@ -74,7 +74,7 @@ int* Control::processData(char* reading) {
   char * pEnd;
   char * pdEnd;
   for (int ii = 0; ii < 20; ii++) {
-    
+
     char scanValue = *(reading + ii);
 
     // getting speed
@@ -85,10 +85,10 @@ int* Control::processData(char* reading) {
     if (readingSpeedFlag == true) {
       if (scanValue == '\r' || scanValue == '\n' || scanValue == ' ') {
         blueData[1] = strtol(stringSpeed, NULL, 10);
-        Serial.println(blueData[1]);
+        //        Serial.println(blueData[1]);
         speedCount = 0;
         readingSpeedFlag = false;
-        memset(stringSpeed,'-',10);
+        memset(stringSpeed, '-', 10);
       }
       else {
         stringSpeed[speedCount] = scanValue;
@@ -96,7 +96,7 @@ int* Control::processData(char* reading) {
       }
     }
 
-    
+
     // getting direction
     if (scanValue == 'D') {
       readingDirectionFlag = true;
@@ -104,11 +104,11 @@ int* Control::processData(char* reading) {
     }
     if (readingDirectionFlag == true) {
       if (scanValue == '\r' || scanValue == '\n' || scanValue == ' ') {
-        blueData[2] = strtol(stringDirection,NULL,10);
-        Serial.println(blueData[2]);
+        blueData[2] = strtol(stringDirection, NULL, 10);
+        //        Serial.println(blueData[2]);
         directCount = 0;
         readingDirectionFlag = false;
-        memset(stringDirection,'-',10);
+        memset(stringDirection, '-', 10);
       }
       else {
         stringDirection[directCount] = scanValue;
@@ -118,7 +118,6 @@ int* Control::processData(char* reading) {
   }
   int *processPoint;
   processPoint = blueData;
-  //  Serial.println(*(processPoint + 1));
   return processPoint;
 }
 
@@ -181,8 +180,8 @@ void Control::MotorController()
 void Control::LightArray(int direction) {
   // position of light
   int lightMask[8] = {1, 1, 1, 1, 1, 1, 1, 1};
-  if (direction < 0) direction = 360 - 90;
-  if (direction < 22.5 && direction >= 337.5) lightMask[1] = 0;
+  if (direction < 0) direction = 360 + direction;
+  if (direction < 22.5 || direction >= 337.5) lightMask[1] = 0;
   else if (direction >= 22.5 && direction < 67.5) lightMask[0] = 0;
   else if (direction >= 67.5 && direction < 112.5) lightMask[7] = 0;
   else if (direction >= 112.5 && direction < 157.5) lightMask[4] = 0;
@@ -196,19 +195,19 @@ void Control::LightArray(int direction) {
   digitalWrite(CLK, LOW);
   digitalWrite(SER_IN, LOW);
   for (int ii = 0; ii < 8; ii++) {
-    Serial.println(ii);
+//    Serial.println(ii);
     digitalWrite(CLK, LOW);
-    delay(10);
+    delay(2);
     if (lightMask[ii] == 0) {
-      Serial.println("low");
+//      Serial.println("low");
       digitalWrite(SER_IN, LOW);
     }
     else {
-      Serial.println("HIGH");
+//      Serial.println("HIGH");
       digitalWrite(SER_IN, HIGH);
     }
     digitalWrite(CLK, HIGH);
-    delay(10);
+    delay(2);
   }
   digitalWrite(L_CLK, HIGH);
   delay(10);

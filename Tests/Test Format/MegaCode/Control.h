@@ -46,6 +46,7 @@ class Control
     void runCode();
     double * outvels;
     double wheelVels[3];
+    int * procData;
     int * data;
 
   private:
