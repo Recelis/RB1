@@ -28,6 +28,8 @@ Navigation::Navigation() {
 int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
 {
 
+  double remoteSpeed = *(data+1);
+  double remoteDirection = *(data+2);
   rightSensor = *(ultrasonicReadings + 2);
   backSensor = *(ultrasonicReadings + 3);
   leftSensor = *(ultrasonicReadings + 4);
@@ -54,12 +56,12 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
     deepFront = 50;
   }
   
-//  Serial.print("right");
-//  Serial.println(deepRight);
-//  Serial.print("left");
-//  Serial.println(deepLeft);
-//  Serial.print("front");
-//  Serial.println(deepFront);
+  Serial.print("right");
+  Serial.println(deepRight);
+  Serial.print("left");
+  Serial.println(deepLeft);
+  Serial.print("front");
+  Serial.println(deepFront);
   // Calculate direction of field0
 
   // calculate magnitudes of three vectors
@@ -78,18 +80,25 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   vector2y = sin(60 * PI / 180) * (v2 - 50);
 
   // original
-  int remoteSpeed = *(data+1);
-  int remoteDirection = *(data+2);
+  
   vorgX = remoteSpeed * cos(remoteDirection * PI / 180);
   vorgY = remoteSpeed * sin(remoteDirection * PI / 180);
   //
-
+  Serial.print("remotespeed");
+  Serial.println(remoteSpeed);
+  Serial.print("remoteDirection");
+  Serial.println(remoteDirection);
+  
+  Serial.print("vorgX");
+  Serial.println(vorgX);
+  Serial.print("vorgY");
+  Serial.println(vorgY);
   xdirection = vector0x + vector1x + vector2x + vorgX;
   ydirection = 21+(vector0y +vector1y+  vector2y) / 120 * 42 + vorgY; // scaled denominator slightly smaller so that remote cannot override sensor instincts
-//    Serial.print("xdirection ");
-//  Serial.println(xdirection);
-//  Serial.print("ydirection ");
-//  Serial.println(ydirection);
+    Serial.print("xdirection ");
+  Serial.println(xdirection);
+  Serial.print("ydirection ");
+  Serial.println(ydirection);
 
   String x = String(vector0x) + " " + String(vector2x);
 //  Serial.println(x);

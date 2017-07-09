@@ -72,9 +72,14 @@ int Test::compass() {
 int * Test::navigation(int * commandValues) {
   // assume that computer is sending these values to RB1
   int data[4];
+    data[0] = *(commandValues);
     data[1] = *(commandValues + 1);
     data[2] = *(commandValues + 2);
     data[3] = *(commandValues + 3);
+    Serial.print("data[2]:");
+    Serial.println(data[2]);
+    int * pointerToData;
+    pointerToData = data;
 //  data[1] = 21;
 //  data[2] = 90;
 //  data[3] = 0;
@@ -82,7 +87,7 @@ int * Test::navigation(int * commandValues) {
   readings = *testSensor.ultrasonicOutputs();
 
   int * vdata;
-  vdata = testNavigation.vectorFields(data, readings);
+  vdata = testNavigation.vectorFields(pointerToData, readings);
 
   return vdata;
 }

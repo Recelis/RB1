@@ -24,6 +24,7 @@ void Control::Controlsetup()
   direction = 0;
   spin = 0;
   mybluetooth.setupBlue();
+  
 }
 
 void Control::runCode() {
@@ -37,6 +38,7 @@ void Control::runCode() {
 void Control::runTests()
 {
   char* raw = mybluetooth.sendReceiveData();
+  
   if (mybluetooth.receivedFlag) {
     procData = processData(raw);
     Serial.println(*(procData+1));
@@ -48,14 +50,14 @@ void Control::runTests()
     speed = *(data + 1);
     direction = *(data + 2);
     spin = *(data + 3);
-//    Serial.print("Speed: ");
-//    Serial.println(speed);
-//    Serial.print("Direction: ");
-//    Serial.println(direction);
-//    Serial.print("Spin: ");
-//    Serial.println(spin);
+    Serial.print("Speed: ");
+    Serial.println(speed);
+    Serial.print("Direction: ");
+    Serial.println(direction);
+    Serial.print("Spin: ");
+    Serial.println(spin);
     LightArray(direction);
-  }
+  } 
 }
 
 int* Control::processData(char* reading) {
@@ -68,9 +70,9 @@ int* Control::processData(char* reading) {
   int directCount = 0;
   // placeholder values
   blueData[0] = 0; // placeholder
-  blueData[1] = speed;
-  blueData[2] = direction;
-  blueData[3] = spin;
+  blueData[1] = 0; // speed
+  blueData[2] = 90; // direction
+  blueData[3] = 0; // spin
   char * pEnd;
   char * pdEnd;
   for (int ii = 0; ii < 20; ii++) {

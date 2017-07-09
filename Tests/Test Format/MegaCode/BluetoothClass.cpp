@@ -30,11 +30,10 @@ char* BluetoothClass::sendReceiveData()
   {
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
-    
+
   }
   if (bluetooth.available()) // If the bluetooth sent any characters
   {
-    receivedFlag = true; // set flag true so that all motor calcs will run
     // Send any characters the bluetooth prints to the serial monitor
     char inputChar = (char)bluetooth.read();
     //    Serial.print(inputChar);
@@ -46,17 +45,18 @@ char* BluetoothClass::sendReceiveData()
       index = 0;
       for (int ii = 0; ii < 20; ii++) {
         myBuffer[ii] = "";
-//        Serial.print(output[ii]);
+        //        Serial.print(output[ii]);
+        receivedFlag = true; // set flag true so that only when full signal sent through, runs others
       }
     } else {
       for (int ii = 0; ii < 20; ii++) {
         output[ii] = "";
       }
     }
-  } else{
+  } else {
     receivedFlag = false;
   }
-  
+
   char* point;
   point = output;
   return point;
