@@ -36,24 +36,26 @@ void Control::runCode() {
 
 void Control::runTests()
 {
-
   char* raw = mybluetooth.sendReceiveData();
-  procData = processData(raw);
-
-  MyTests.compass();
-  data = MyTests.navigation(procData);
-  //  //  data = MyTests.forwardAndBackward();
-  speed = *(data + 1);
-  direction = *(data + 2);
-  spin = *(data + 3);
-  Serial.print("Speed: ");
-  Serial.println(speed);
-  Serial.print("Direction: ");
-  Serial.println(direction);
-  Serial.print("Spin: ");
-  Serial.println(spin);
-  LightArray(direction);
-
+  if (mybluetooth.receivedFlag) {
+    procData = processData(raw);
+    Serial.println(*(procData+1));
+    Serial.println(*(procData+2));
+    Serial.println(*(procData+3));
+    MyTests.compass();
+    data = MyTests.navigation(procData);
+    //  //  data = MyTests.forwardAndBackward();
+    speed = *(data + 1);
+    direction = *(data + 2);
+    spin = *(data + 3);
+//    Serial.print("Speed: ");
+//    Serial.println(speed);
+//    Serial.print("Direction: ");
+//    Serial.println(direction);
+//    Serial.print("Spin: ");
+//    Serial.println(spin);
+    LightArray(direction);
+  }
 }
 
 int* Control::processData(char* reading) {
@@ -193,15 +195,15 @@ void Control::LightArray(int direction) {
   digitalWrite(CLK, LOW);
   digitalWrite(SER_IN, LOW);
   for (int ii = 0; ii < 8; ii++) {
-//    Serial.println(ii);
+    //    Serial.println(ii);
     digitalWrite(CLK, LOW);
     delay(2);
     if (lightMask[ii] == 0) {
-//      Serial.println("low");
+      //      Serial.println("low");
       digitalWrite(SER_IN, LOW);
     }
     else {
-//      Serial.println("HIGH");
+      //      Serial.println("HIGH");
       digitalWrite(SER_IN, HIGH);
     }
     digitalWrite(CLK, HIGH);

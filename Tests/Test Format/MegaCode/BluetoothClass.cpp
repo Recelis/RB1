@@ -19,20 +19,22 @@ void BluetoothClass::setupBlue()
   bluetooth.begin(9600);  // Start bluetooth serial at 9600
   Serial.println("setup");
   index = 0;
+  receivedFlag = false;
 }
 
 
 
 char* BluetoothClass::sendReceiveData()
 {
-  if (Serial.available()) // If stuff was typed in the serial monitor
+  if (Serial.available()) // If stuff was typed in the serial monitor, which wouldn't happen
   {
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
-
+    
   }
   if (bluetooth.available()) // If the bluetooth sent any characters
   {
+    receivedFlag = true; // set flag true so that all motor calcs will run
     // Send any characters the bluetooth prints to the serial monitor
     char inputChar = (char)bluetooth.read();
     //    Serial.print(inputChar);
@@ -51,7 +53,10 @@ char* BluetoothClass::sendReceiveData()
         output[ii] = "";
       }
     }
+  } else{
+    receivedFlag = false;
   }
+  
   char* point;
   point = output;
   return point;

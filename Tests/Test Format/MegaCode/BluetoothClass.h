@@ -15,14 +15,15 @@ class BluetoothClass
 {
   public:
     BluetoothClass():bluetooth(50,51){};
-
+    
     void setupBlue();
     char* sendReceiveData();
     char myBuffer[20];
     char output[20];
-    int index;
+    bool receivedFlag;
   private:
    SoftwareSerial bluetooth;
+   int index;
 
 };
 
