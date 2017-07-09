@@ -21,6 +21,7 @@ class Switch
     void setupPins();
     void readPins();
     int calculateDirection();
+    int getSpeed();
     private:
     int switchState;
     double vrxRead;

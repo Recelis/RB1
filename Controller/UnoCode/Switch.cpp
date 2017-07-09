@@ -19,22 +19,27 @@ void Switch::readPins()
 {
   vrxRead = analogRead(vrx);
   vryRead = analogRead(vry);
-  Serial.println(1024-vrxRead);
-  Serial.println(vryRead-500); 
 }
 
-int Switch::calculateDirection(){
-  if ((abs(500-vryRead) < 50) && abs(500-vrxRead) < 50){
-    digitalWrite(led,LOW);
-    return 90;
+int Switch::getSpeed() {
+  if ((abs(500 - vryRead) < 50) && abs(500 - vrxRead) < 50) {
+    digitalWrite(led, LOW);
+    return 0;
+  } else {
+    digitalWrite(led, HIGH);
+    return 21;
   }
-  else {
-    digitalWrite(led,HIGH);
-    double out = atan2(vryRead-500,1024-vrx) * 180 / PI;
-    return (int) out;
-  }
+
 }
 
+int Switch::calculateDirection() {
+  double out = atan2(vryRead - 500, vrxRead - 500) * 180 / PI;
+  return (int) out;
+}
+
+//  Serial.println("*******************");
+//  Serial.println(vrxRead - 500);
+//  Serial.println(vryRead - 500);
 
 
 

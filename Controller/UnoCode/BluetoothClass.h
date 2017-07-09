@@ -14,11 +14,14 @@ class BluetoothClass
   public:
     BluetoothClass():bluetooth(2,3){};
     void setupBlue();
-    void sendReceiveData();
+    void sendReceiveData(int speed, int direction);
     void connectToRB1();
 
     private:
     SoftwareSerial bluetooth;
+    bool zeroSpeed;
+    int prevSpeed;
+    int prevDirection;
     
 };
 
