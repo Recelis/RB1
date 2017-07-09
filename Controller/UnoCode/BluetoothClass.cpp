@@ -74,5 +74,3 @@ void BluetoothClass::sendReceiveData(int speed, int direction)
   // and loop forever and ever!
 }
 
-
-

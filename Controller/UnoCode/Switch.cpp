@@ -42,5 +42,3 @@ int Switch::calculateDirection() {
 //  Serial.println(vryRead - 500);
 
 
-
-
