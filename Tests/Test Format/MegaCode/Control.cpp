@@ -24,7 +24,9 @@ void Control::Controlsetup()
   direction = 0;
   spin = 0;
   mybluetooth.setupBlue();
-  
+  int placeholderRemoteValues [4] = {0, 0, 0, 0};
+  procData = placeholderRemoteValues;
+
 }
 
 void Control::runCode() {
@@ -38,28 +40,29 @@ void Control::runCode() {
 void Control::runTests()
 {
   char* raw = mybluetooth.sendReceiveData();
-  
+
   if (mybluetooth.receivedFlag) {
-    mybluetooth.lockSend('L');
+    mybluetooth.lockSend(true);
     procData = processData(raw);
-    Serial.println(*(procData+1));
-    Serial.println(*(procData+2));
-    Serial.println(*(procData+3));
+    Serial.println(*(procData + 1));
+    Serial.println(*(procData + 2));
+    Serial.println(*(procData + 3));
     MyTests.compass();
+    //        data = MyTests.forwardAndBackward();
     data = MyTests.navigation(procData);
-    //  //  data = MyTests.forwardAndBackward();
     speed = *(data + 1);
     direction = *(data + 2);
     spin = *(data + 3);
-    Serial.print("Speed: ");
-    Serial.println(speed);
-    Serial.print("Direction: ");
-    Serial.println(direction);
-    Serial.print("Spin: ");
-    Serial.println(spin);
-    LightArray(direction);
-    mybluetooth.lockSend('O');
-  } 
+  }
+  //
+
+  Serial.print("Speed: ");
+  Serial.println(speed);
+  Serial.print("Direction: ");
+  Serial.println(direction);
+  Serial.print("Spin: ");
+  Serial.println(spin);
+  LightArray(direction);
 }
 
 int* Control::processData(char* reading) {
@@ -215,6 +218,6 @@ void Control::LightArray(int direction) {
   }
   digitalWrite(L_CLK, HIGH);
   delay(10);
-
+  mybluetooth.lockSend(false);
 }
 

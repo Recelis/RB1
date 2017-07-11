@@ -21,6 +21,7 @@ void BluetoothClass::setupBlue()
   zeroSpeed = false;
   prevSpeed = 0;
   prevDirection = 0;
+  locked = false;
 }
 
 void BluetoothClass::connectToRB1()
@@ -40,11 +41,25 @@ void BluetoothClass::sendReceiveData(int speed, int direction)
   if (bluetooth.available()) // If the bluetooth sent any characters
   {
     // Send any characters the bluetooth prints to the serial monitor
-    Serial.print((char)bluetooth.read());
-
+    char blueRead = (char)bluetooth.read();
+    Serial.println(blueRead);
+    
+    if (strcmp (blueRead,'L') == 0) {
+      Serial.println("locked");
+      locked = true;
+    }
+    if (strcmp (blueRead,'O') == 0) {
+      Serial.println("unlocked");
+      locked = false;
+    }
     // read data to memory
   }
+  if (locked) {
+    Serial.println("Not sending any orders at the moment");
+    return;
+  }
   if (speed == 0) {
+    
     if (Serial.available()) // If stuff was typed in the serial monitor
     {
       // Send any characters the Serial monitor prints to the bluetooth

@@ -18,7 +18,7 @@ class BluetoothClass
 
     void setupBlue();
     char* sendReceiveData();
-    void lockSend(bool lock);
+    bool lockSend(bool lock);
     char myBuffer[20];
     char output[20];
     bool receivedFlag;

@@ -22,7 +22,7 @@ class BluetoothClass
     bool zeroSpeed;
     int prevSpeed;
     int prevDirection;
-    
+    bool locked;
 };
 
 #endif

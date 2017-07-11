@@ -26,15 +26,17 @@ int * Test::spin() {
 }
 
 int * Test::forwardAndBackward() {
-  int data[3];
+  int data[4];
   if (count < 50) {
-    data[0] = 21;
-    data[1] = 90;
-    data[2] = 0;
+    data[0] = 0;
+    data[1] = 21;
+    data[2] = 90;
+    data[3] = 0;
   } else {
-    data[0] = 21;
-    data[1] = 270;
-    data[2] = 0;
+    data[0] = 0;
+    data[1] = 21;
+    data[2] = 270;
+    data[3] = 0;
     if (count > 100) count = 0;
   }
   count++;
