@@ -38,6 +38,8 @@ class Navigation
 
     double vorgX;
     double vorgY;
+
+    bool notCrisis;
 };
 
 #endif

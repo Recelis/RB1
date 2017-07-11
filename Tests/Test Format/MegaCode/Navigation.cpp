@@ -22,6 +22,7 @@ Navigation::Navigation() {
 
   xdirection = 0;
   ydirection = 0;
+  notCrisis = true;
 }
 
 
@@ -55,6 +56,12 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   if (deepFront > 50 || deepFront == 0) {
     deepFront = 50;
   }
+  if (deepDown > 16){
+    Serial.println("FAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNGGGGGGGGGGGGGG");
+    notCrisis = false;
+  } else{
+    notCrisis = true;
+  }
   
   Serial.print("right");
   Serial.println(deepRight);
@@ -62,6 +69,8 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   Serial.println(deepLeft);
   Serial.print("front");
   Serial.println(deepFront);
+  Serial.print("DOWN");
+  Serial.println(deepDown);
   // Calculate direction of field0
 
   // calculate magnitudes of three vectors
@@ -106,10 +115,18 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   int spin = *(data + 3);
 
   int vectoredData [4];
-  vectoredData[0] = 1; // placeholder value
-  vectoredData[1] = *(data+1);
-  vectoredData[2] = direction;
-  vectoredData[3] = spin;
+  if (notCrisis){
+    vectoredData[0] = 1; // placeholder value
+    vectoredData[1] = *(data+1);
+    vectoredData[2] = direction;
+    vectoredData[3] = spin;  
+  } else{
+    vectoredData[0] = 1; // placeholder value
+    vectoredData[1] = *(data+1);
+    vectoredData[2] = -90;
+    vectoredData[3] = spin;  
+  }
+  
 //  Serial.println(*(data+1));
 //  Serial.println(*(data + 2));
 //  Serial.println(*(data + 3));
