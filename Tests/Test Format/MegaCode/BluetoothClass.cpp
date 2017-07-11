@@ -22,7 +22,10 @@ void BluetoothClass::setupBlue()
   receivedFlag = false;
 }
 
-
+void BluetoothClass::lockSend(bool lock){
+  if (lock) bluetooth.print('L');
+  else bluetooth.print('O');
+}
 
 char* BluetoothClass::sendReceiveData()
 {

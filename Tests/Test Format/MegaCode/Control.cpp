@@ -40,6 +40,7 @@ void Control::runTests()
   char* raw = mybluetooth.sendReceiveData();
   
   if (mybluetooth.receivedFlag) {
+    mybluetooth.lockSend('L');
     procData = processData(raw);
     Serial.println(*(procData+1));
     Serial.println(*(procData+2));
@@ -57,6 +58,7 @@ void Control::runTests()
     Serial.print("Spin: ");
     Serial.println(spin);
     LightArray(direction);
+    mybluetooth.lockSend('O');
   } 
 }
 
