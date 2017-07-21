@@ -57,7 +57,7 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
 //    deepFront = 50;
 //  }
   if (deepDown > 16){
-    Serial.println("FAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNGGGGGGGGGGGGGG");
+    Serial.println("CRISIS");
     notCrisis = false;
   } else{
     notCrisis = true;
@@ -97,17 +97,17 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   Serial.println(remoteSpeed);
   Serial.print("remoteDirection");
   Serial.println(remoteDirection);
-  
-  Serial.print("vorgX");
-  Serial.println(vorgX);
-  Serial.print("vorgY");
-  Serial.println(vorgY);
+//  
+//  Serial.print("vorgX");
+//  Serial.println(vorgX);
+//  Serial.print("vorgY");
+//  Serial.println(vorgY);
   xdirection = vector0x + vector1x + vector2x + vorgX;
   ydirection = 21+(vector0y +vector1y+  vector2y) / 120 * 42 + vorgY; // scaled denominator slightly smaller so that remote cannot override sensor instincts
-    Serial.print("xdirection ");
-  Serial.println(xdirection);
-  Serial.print("ydirection ");
-  Serial.println(ydirection);
+//    Serial.print("xdirection ");
+//  Serial.println(xdirection);
+//  Serial.print("ydirection ");
+//  Serial.println(ydirection);
 
   String x = String(vector0x) + " " + String(vector2x);
 //  Serial.println(x);

@@ -25,12 +25,12 @@ void BluetoothClass::setupBlue()
 bool BluetoothClass::lockSend(bool locked){
   if (locked) {
     bluetooth.print('L');
-    Serial.println("Locked");
+//    Serial.println("Locked");
     return true;
   }
   else {
     bluetooth.print('O');
-    Serial.println("Open");
+//    Serial.println("Open");
     return false;
   }
 }

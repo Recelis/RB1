@@ -10,7 +10,7 @@
 #define IR_R 9
 #define IR_B 12
 #define IR_L 11 
-#define VoltPin 39
+#define VoltPin A15
 
 void Sensors::SensorsSetup()
 {
@@ -19,7 +19,7 @@ void Sensors::SensorsSetup()
   Leftrange = -1;
   Frontrange = -1;
   Downrange = -1;
-  pinMode(VoltPin, INPUT);
+//  pinMode(VoltPin, INPUT);
   long ultrasonicReturn[7];
   for (int ii = 0; ii < 7; ii++)
   {
@@ -29,8 +29,10 @@ void Sensors::SensorsSetup()
 
 int Sensors::readVoltageLevel()
 {
-  Serial.println(analogRead(VoltPin));
-  return analogRead(VoltPin);
+  
+  int voltageLevel = analogRead(VoltPin);
+  
+  return voltageLevel;
 }
 
 
@@ -52,10 +54,10 @@ int* Sensors::ultrasonicOutputs()
    ultrasonicReturn[2] =  Leftrange;
    ultrasonicReturn[3] =  Frontrange;
    ultrasonicReturn[4] =  Downrange;
-//   for (int ii =0; ii < 5; ii++){
-//    Serial.print("reading of ultrasonic return is: ");
-//    Serial.println(ultrasonicReturn[ii]);
-//   }
+   for (int ii =0; ii < 5; ii++){
+    Serial.print("reading of ultrasonic return is: ");
+    Serial.println(ultrasonicReturn[ii]);
+   }
    ultraPoint = ultrasonicReturn;
    return ultraPoint;
 }
@@ -65,5 +67,10 @@ int Sensors::compass(){
   return onboardCompass.getHeading();
 }
 
-
+/*
+ 
+ Serial.print("voltage is:");
+ Serial.println(voltageLevel);
+  
+ */
 

@@ -30,6 +30,8 @@
 #define CLK 30
 #define L_CLK 28
 
+#define BUZZER 23
+
 class Control
 {
   public:
@@ -45,6 +47,7 @@ class Control
     void LightArray(int direction);
     void runTests();
     void runCode();
+    void beep(bool flag);
     double * outvels;
     double wheelVels[3];
     int * procData;
