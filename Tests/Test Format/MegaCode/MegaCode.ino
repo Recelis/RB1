@@ -16,7 +16,7 @@ void setup()
 
 void loop()
 {
-  Controlpanel.runTests(); 	
+  Controlpanel.runCode(); 	
   Controlpanel.KinematicsController();
   Controlpanel.MotorController();
 }

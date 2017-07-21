@@ -26,15 +26,35 @@ void Control::Controlsetup()
   mybluetooth.setupBlue();
   int placeholderRemoteValues [4] = {0, 0, 0, 0};
   procData = placeholderRemoteValues;
-
+  SensorData.SensorsSetup();
 }
 
 void Control::runCode() {
-  SensorData.SensorsSetup();
-  int *ultrasonicReadings;
+  // ultrasonic readings
+  
+  int * ultrasonicReadings;
   ultrasonicReadings = SensorData.ultrasonicOutputs();
-  int heading = SensorData.compass();
+  
+  // bluetooth readings
+  char* raw = mybluetooth.sendReceiveData();
 
+   speed = 21;
+    direction = 90;
+    spin = 0;
+
+    data = Nav.vectorFields(procData, ultrasonicReadings);
+    speed = *(data + 1);
+    direction = *(data + 2);
+    spin = *(data + 3);
+  if (mybluetooth.receivedFlag) {
+    mybluetooth.lockSend(true);
+    procData = processData(raw);
+    SensorData.compass();
+    
+    
+
+  }
+  LightArray(direction);
 }
 
 void Control::runTests()
@@ -44,9 +64,7 @@ void Control::runTests()
   if (mybluetooth.receivedFlag) {
     mybluetooth.lockSend(true);
     procData = processData(raw);
-    Serial.println(*(procData + 1));
-    Serial.println(*(procData + 2));
-    Serial.println(*(procData + 3));
+    
     MyTests.compass();
     //        data = MyTests.forwardAndBackward();
     data = MyTests.navigation(procData);
@@ -56,12 +74,7 @@ void Control::runTests()
   }
   //
 
-  Serial.print("Speed: ");
-  Serial.println(speed);
-  Serial.print("Direction: ");
-  Serial.println(direction);
-  Serial.print("Spin: ");
-  Serial.println(spin);
+
   LightArray(direction);
 }
 
@@ -218,6 +231,29 @@ void Control::LightArray(int direction) {
   }
   digitalWrite(L_CLK, HIGH);
   delay(10);
-  mybluetooth.lockSend(false);
+  mybluetooth.lockSend(true);
 }
 
+
+/*
+  Serial.print("Speed: ");
+  Serial.println(speed);
+  Serial.print("Direction: ");
+  Serial.println(direction);
+  Serial.print("Spin: ");
+  Serial.println(spin);
+
+      Serial.println(*(data + 1));
+    Serial.println(*(data + 2));
+    Serial.println(*(data + 3));
+
+    Serial.print("Range of Right is: ");
+  Serial.println(*(ultrasonicReadings));
+  Serial.print("Range of Back is: ");
+  Serial.println(*(ultrasonicReadings + 1));
+  Serial.print("Range of Left is: ");
+  Serial.println(*(ultrasonicReadings + 2));
+  Serial.print("Range of Front is: ");
+  Serial.println(*(ultrasonicReadings + 3));
+  Serial.print("Range of Down is: ");
+  Serial.println(*(ultrasonicReadings + 4));

@@ -60,6 +60,7 @@ char* BluetoothClass::sendReceiveData()
         receivedFlag = true; // set flag true so that only when full signal sent through, runs others
       }
     } else {
+      receivedFlag = false;
       for (int ii = 0; ii < 20; ii++) {
         output[ii] = "";
       }

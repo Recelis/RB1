@@ -18,6 +18,7 @@
 #include "Sensors.h"
 #include "Test.h"
 #include "BluetoothClass.h"
+#include "Navigation.h"
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
@@ -57,6 +58,7 @@ class Control
     Test MyTests;
     Sensors SensorData;
     BluetoothClass mybluetooth;
+    Navigation Nav;
     char SerialGet;
     int SerialBegin;
     int wheelpow1;

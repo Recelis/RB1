@@ -31,11 +31,11 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
 
   double remoteSpeed = *(data+1);
   double remoteDirection = *(data+2);
-  rightSensor = *(ultrasonicReadings + 2);
-  backSensor = *(ultrasonicReadings + 3);
-  leftSensor = *(ultrasonicReadings + 4);
-  frontSensor = *(ultrasonicReadings + 5);
-  downSensor = *(ultrasonicReadings + 6);
+  rightSensor = *(ultrasonicReadings + 0);
+  backSensor = *(ultrasonicReadings + 1);
+  leftSensor = *(ultrasonicReadings + 2);
+  frontSensor = *(ultrasonicReadings + 3);
+  downSensor = *(ultrasonicReadings + 4);
 
   int deepRight = rightSensor;
   int deepBack = backSensor;
@@ -44,18 +44,18 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   int deepDown = downSensor;
 
   // Scale Everything to 50cm except for down, and include possible no reading
-  if (deepRight > 50 || deepRight == 0) {
-    deepRight = 50;
-  }
-  if (deepBack > 50 || deepBack == 0) {
-    deepBack = 50;
-  }
-  if (deepLeft > 50 || deepLeft == 0) {
-    deepLeft = 50;
-  }
-  if (deepFront > 50 || deepFront == 0) {
-    deepFront = 50;
-  }
+//  if (deepRight > 50 || deepRight == 0) {
+//    deepRight = 50;
+//  }
+//  if (deepBack > 50 || deepBack == 0) {
+//    deepBack = 50;
+//  }
+//  if (deepLeft > 50 || deepLeft == 0) {
+//    deepLeft = 50;
+//  }
+//  if (deepFront > 50 || deepFront == 0) {
+//    deepFront = 50;
+//  }
   if (deepDown > 16){
     Serial.println("FAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNGGGGGGGGGGGGGG");
     notCrisis = false;
@@ -69,7 +69,7 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   Serial.println(deepLeft);
   Serial.print("front");
   Serial.println(deepFront);
-  Serial.print("DOWN");
+  Serial.print("down");
   Serial.println(deepDown);
   // Calculate direction of field0
 

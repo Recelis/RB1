@@ -41,6 +41,7 @@ int * Test::forwardAndBackward() {
   }
   count++;
   Serial.println(data[2]);
+  delay(100);
   return data;
 }
 
