@@ -33,24 +33,21 @@ void Control::Controlsetup()
 void Control::runCode() {
   // ultrasonic readings
   int * ultrasonicReadings;
-  Serial.println("***********************************************************************New RunCode Loop*******************************************************************");
   ultrasonicReadings = SensorData.ultrasonicOutputs();
-    Serial.print("Range of Right is: ");
-  Serial.println(*(ultrasonicReadings));
-  Serial.print("Range of MiddleRight is: ");
-  Serial.println(*(ultrasonicReadings + 1));
-  Serial.print("Range of Front is: ");
-  Serial.println(*(ultrasonicReadings + 3));
-  Serial.print("Range of MiddleLeft is: ");
-  Serial.println(*(ultrasonicReadings + 4));
-  Serial.print("Range of Left is: ");
-  Serial.println(*(ultrasonicReadings + 2));
-  // bluetooth readings
-    char* raw = mybluetooth.sendReceiveData();
+  char* raw = mybluetooth.sendReceiveData();
   if (mybluetooth.receivedFlag) {
-
-    Serial.println("received!");
-    
+    Serial.println("***********************************************************************New RunCode Loop*******************************************************************");
+    Serial.print("Range of Right is: ");
+    Serial.println(*(ultrasonicReadings));
+    Serial.print("Range of MiddleRight is: ");
+    Serial.println(*(ultrasonicReadings + 1));
+    Serial.print("Range of Front is: ");
+    Serial.println(*(ultrasonicReadings + 3));
+    Serial.print("Range of MiddleLeft is: ");
+    Serial.println(*(ultrasonicReadings + 4));
+    Serial.print("Range of Left is: ");
+    Serial.println(*(ultrasonicReadings + 2));
+    //    bluetooth readings
     procData = processData(raw);
     data = Nav.vectorFields(procData, ultrasonicReadings);
     mybluetooth.lockSend(true);
@@ -58,10 +55,11 @@ void Control::runCode() {
     speed = *(data + 1);
     direction = *(data + 2);
     spin = *(data + 3);
-  } else{
+    String command = String(speed) + " " + String(direction) + " " + String(spin);
+    Serial.println(command);
+  } else {
     data = Nav.vectorFields(procData, ultrasonicReadings);
   }
-  Serial.println(*(data + 2));
   LightArray(*(data + 2));
   // voltage level reading
   int voltageLevel = SensorData.readVoltageLevel();
