@@ -124,7 +124,7 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
   Serial.println(x);
   int direction = atan2(ydirection, xdirection) / PI * 180;
 
-  int vectoredData [4];
+  static int vectoredData [4];
   if (notCrisis){
     vectoredData[0] = 1; // placeholder value
     vectoredData[1] = *(data+1);
@@ -134,12 +134,10 @@ int* Navigation::vectorFields(int* data, int* ultrasonicReadings)
 //  Serial.println(*(data+1));
 //  Serial.println(*(data + 2));
 //  Serial.println(*(data + 3));
-  int *returnPointer;
-  returnPointer = vectoredData;
 //  Serial.println(*(returnPointer+1));
 //  Serial.println(*(returnPointer + 2));
 //  Serial.println(*(returnPointer + 3));
-  return returnPointer;
+  return vectoredData;
 }
 
 

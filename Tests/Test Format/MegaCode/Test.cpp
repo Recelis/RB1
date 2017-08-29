@@ -9,7 +9,7 @@ Test::Test() {
 }
 
 int * Test::spin() {
-  int data[3];
+  static int data[3];
   if (count < 50) {
     data[0] = 0;
     data[1] = 0;
@@ -26,7 +26,7 @@ int * Test::spin() {
 }
 
 int * Test::forwardAndBackward() {
-  int data[4];
+  static int data[4];
   if (count < 50) {
     data[0] = 0;
     data[1] = 21;
