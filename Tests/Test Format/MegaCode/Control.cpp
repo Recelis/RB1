@@ -33,17 +33,18 @@ void Control::Controlsetup()
 void Control::runCode() {
   // ultrasonic readings
   int * ultrasonicReadings;
+  Serial.println("***********************************************************************New RunCode Loop*******************************************************************");
   ultrasonicReadings = SensorData.ultrasonicOutputs();
-  Serial.print("Range of Right is: ");
+    Serial.print("Range of Right is: ");
   Serial.println(*(ultrasonicReadings));
-  Serial.print("Range of Back is: ");
+  Serial.print("Range of MiddleRight is: ");
   Serial.println(*(ultrasonicReadings + 1));
-  Serial.print("Range of Left is: ");
-  Serial.println(*(ultrasonicReadings + 2));
   Serial.print("Range of Front is: ");
   Serial.println(*(ultrasonicReadings + 3));
-  Serial.print("Range of Down is: ");
+  Serial.print("Range of MiddleLeft is: ");
   Serial.println(*(ultrasonicReadings + 4));
+  Serial.print("Range of Left is: ");
+  Serial.println(*(ultrasonicReadings + 2));
   // bluetooth readings
     char* raw = mybluetooth.sendReceiveData();
   if (mybluetooth.receivedFlag) {
@@ -73,6 +74,7 @@ void Control::runTests()
   char* raw = mybluetooth.sendReceiveData();
 
   if (mybluetooth.receivedFlag) {
+    Serial.println("***********************************************************************New RunTest Loop*******************************************************************");
     mybluetooth.lockSend(true);
     procData = processData(raw);
     MyTests.compass();
@@ -235,6 +237,8 @@ void Control::beep(bool flag) {
 
 
 /*
+
+
 
   Serial.println("wheelVels 0 ");
   Serial.println(wheelVels[0]);

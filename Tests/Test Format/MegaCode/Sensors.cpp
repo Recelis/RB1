@@ -6,19 +6,15 @@
 
 
 #include "Sensors.h"
-#define IR_F 10
-#define IR_R 9
-#define IR_B 12
-#define IR_L 11 
 #define VoltPin A15
 
 void Sensors::SensorsSetup()
 {
   Rightrange = -1;
-  Backrange = -1;
+  middleRightrange = -1;
   Leftrange = -1;
   Frontrange = -1;
-  Downrange = -1;
+  middleLeftrange = -1;
 //  pinMode(VoltPin, INPUT);
   long ultrasonicReturn[7];
   for (int ii = 0; ii < 7; ii++)
@@ -39,27 +35,22 @@ int Sensors::readVoltageLevel()
 void Sensors::ultrasonicCon()
 {
    Rightrange = ultrasonic_R.Ranging(CM);
-   Backrange = ultrasonic_B.Ranging(CM);   
+   middleRightrange = ultrasonic_MR.Ranging(CM);   
    Leftrange = ultrasonic_L.Ranging(CM);   
    Frontrange = ultrasonic_F.Ranging(CM);
-   Downrange = ultrasonic_D.Ranging(CM); 
+   middleLeftrange = ultrasonic_ML.Ranging(CM); 
 }
 
 int* Sensors::ultrasonicOutputs()
 {
    ultrasonicCon();
-   int ultrasonicReturn[7];
+   static int ultrasonicReturn[5];
    ultrasonicReturn[0] =  Rightrange;
-   ultrasonicReturn[1] =  Backrange;
+   ultrasonicReturn[1] =  middleRightrange;
    ultrasonicReturn[2] =  Leftrange;
    ultrasonicReturn[3] =  Frontrange;
-   ultrasonicReturn[4] =  Downrange;
-   for (int ii =0; ii < 5; ii++){
-    Serial.print("reading of ultrasonic return is: ");
-    Serial.println(ultrasonicReturn[ii]);
-   }
-   ultraPoint = ultrasonicReturn;
-   return ultraPoint;
+   ultrasonicReturn[4] =  middleLeftrange;
+   return ultrasonicReturn;
 }
 
 

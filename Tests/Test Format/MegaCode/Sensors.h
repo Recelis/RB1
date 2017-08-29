@@ -17,7 +17,7 @@
 class Sensors 
 {
   public:
-    Sensors(): ultrasonic_R(44,45),ultrasonic_B(48,49), ultrasonic_L(46,47), ultrasonic_F(40,41), ultrasonic_D(42,43){
+    Sensors(): ultrasonic_R(44,45),ultrasonic_MR(48,49), ultrasonic_L(46,47), ultrasonic_F(40,41), ultrasonic_ML(42,43){
       }
     void SensorsSetup();
     void ultrasonicCon();
@@ -25,17 +25,17 @@ class Sensors
     int compass();
     int readVoltageLevel();  
   private:
-    Ultrasonic ultrasonic_D;
+    Ultrasonic ultrasonic_ML;
     Ultrasonic ultrasonic_R;
-    Ultrasonic ultrasonic_B;
+    Ultrasonic ultrasonic_MR;
     Ultrasonic ultrasonic_L;
     Ultrasonic ultrasonic_F;
     Compass onboardCompass;
     int Rightrange;
-    int Backrange;
+    int middleRightrange;
     int Leftrange;
     int Frontrange;
-    int Downrange;
+    int middleLeftrange;
     int * ultraPoint;
 };
 
