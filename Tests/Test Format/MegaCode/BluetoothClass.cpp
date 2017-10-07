@@ -47,7 +47,7 @@ char* BluetoothClass::sendReceiveData()
   {
     // Send any characters the bluetooth prints to the serial monitor
     char inputChar = (char)bluetooth.read();
-    //    Serial.print(inputChar);
+    Serial.print(inputChar);
 
     myBuffer[index] = inputChar;
     index++;

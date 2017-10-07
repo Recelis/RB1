@@ -45,8 +45,9 @@ class Control
     void KinematicsController();
     int * processData(char* reading);
     void LightArray(int direction);
+    void RobotSleep();
     void runTests();
-    void runCode();
+    int runCode();
     void beep(bool flag);
     double * outvels;
     double wheelVels[3];
@@ -75,7 +76,7 @@ class Control
     int direction;
     int spin;
     int startread;
-    
+    bool sleep;
     // Test
     int direct;
 };

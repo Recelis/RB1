@@ -28,9 +28,11 @@ void Control::Controlsetup()
   procData = placeholderRemoteValues;
   SensorData.SensorsSetup();
   pinMode(BUZZER, OUTPUT);
+  sleep = false;
 }
 
-void Control::runCode() {
+int Control::runCode() {
+  Serial.println("*");
   // ultrasonic readings
   int * ultrasonicReadings;
   ultrasonicReadings = SensorData.ultrasonicOutputs();
@@ -60,11 +62,17 @@ void Control::runCode() {
   } else {
     data = Nav.vectorFields(procData, ultrasonicReadings);
   }
+  if (sleep == true) {
+    RobotSleep();
+    Serial.println("Sleeping!");
+    return 0;
+  }
   LightArray(*(data + 2));
   // voltage level reading
   int voltageLevel = SensorData.readVoltageLevel();
   if (voltageLevel < 980) beep(false);
   else beep(false);
+  return 1;
 }
 
 void Control::runTests()
@@ -102,7 +110,13 @@ int* Control::processData(char* reading) {
   for (int ii = 0; ii < 20; ii++) {
 
     char scanValue = *(reading + ii);
-
+    if (scanValue == 'F') {
+      sleep = true;
+      return;
+    }
+    if (scanValue == 'T') {
+      sleep = false;
+    }
     // getting speed
     if (scanValue == 'S') {
       readingSpeedFlag = true;
@@ -227,6 +241,30 @@ void Control::LightArray(int direction) {
   mybluetooth.lockSend(true);
 }
 
+void Control::RobotSleep() {
+  // turn off lights
+  int lightMask[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  digitalWrite(L_CLK, LOW);
+  digitalWrite(CLK, LOW);
+  digitalWrite(SER_IN, LOW);
+  for (int ii = 0; ii < 8; ii++) {
+    //    Serial.println(ii);
+    digitalWrite(CLK, LOW);
+    delay(2);
+    if (lightMask[ii] == 0) {
+      //      Serial.println("low");
+      digitalWrite(SER_IN, LOW);
+    }
+    else {
+      //      Serial.println("HIGH");
+      digitalWrite(SER_IN, HIGH);
+    }
+    digitalWrite(CLK, HIGH);
+    delay(2);
+  }
+  digitalWrite(L_CLK, HIGH);
+  delay(10);
+}
 
 void Control::beep(bool flag) {
   if (flag == true) digitalWrite(BUZZER, HIGH);
