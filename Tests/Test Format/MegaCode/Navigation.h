@@ -18,10 +18,10 @@ class Navigation
     Navigation();
     int* vectorFields(int *data, int* ultrasonicReadings);
     int rightSensor;
-    int backSensor;
+    int middleRightSensor;
     int leftSensor;
     int frontSensor;
-    int downSensor; 
+    int middleLeftSensor; 
   private:
 
     int xdirection;
@@ -36,8 +36,16 @@ class Navigation
     double vector2x;
     double vector2y;
 
+    double vector3x;
+    double vector3y;
+
+    double vector4x;
+    double vector4y;
+
     double vorgX;
     double vorgY;
+
+    bool notCrisis;
 };
 
 #endif

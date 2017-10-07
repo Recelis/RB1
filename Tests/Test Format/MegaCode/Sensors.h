@@ -17,39 +17,26 @@
 class Sensors 
 {
   public:
-//    Sensors(): bluetooth(11,12), ultrasonic_R(17,16),ultrasonic_B(4,3), ultrasonic_L(8,7), ultrasonic_F(15,14), ultrasonic_D(6,5){
-//      }
-    Sensors(): ultrasonic_R(44,45),ultrasonic_B(48,49), ultrasonic_L(46,47), ultrasonic_F(40,41), ultrasonic_D(42,43){
+    Sensors(): ultrasonic_R(44,45),ultrasonic_MR(48,49), ultrasonic_L(46,47), ultrasonic_F(40,41), ultrasonic_ML(42,43){
       }
     void SensorsSetup();
-//    void BluetoothCon();
     void ultrasonicCon();
     int * ultrasonicOutputs();
-//    int * IR_Beacon();
     int compass();
-      
+    int readVoltageLevel();  
   private:
-//    AltSoftSerial bluetooth;
-    Ultrasonic ultrasonic_D;
+    Ultrasonic ultrasonic_ML;
     Ultrasonic ultrasonic_R;
-    Ultrasonic ultrasonic_B;
+    Ultrasonic ultrasonic_MR;
     Ultrasonic ultrasonic_L;
     Ultrasonic ultrasonic_F;
     Compass onboardCompass;
     int Rightrange;
-    int Backrange;
+    int middleRightrange;
     int Leftrange;
     int Frontrange;
-    int Downrange;
-//    int bluetoothTx;
-//    int bluetoothRx;
-    int * ultrasonicReturn;
-//    int slaveAddress;
-//    byte headingData[2];
-//    int i, headingValue;
-//    int HMC6352Address = 0x42; 
-
-//    int * IRvalues; 
+    int middleLeftrange;
+    int * ultraPoint;
 };
 
 #endif

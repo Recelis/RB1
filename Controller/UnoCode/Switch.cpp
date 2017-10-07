@@ -49,5 +49,3 @@ int Switch::readPush(){
 //  Serial.println(vryRead - 500);
 
 
-
-

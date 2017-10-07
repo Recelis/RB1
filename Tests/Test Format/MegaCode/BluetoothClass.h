@@ -14,16 +14,17 @@
 class BluetoothClass
 {
   public:
-    BluetoothClass():bluetooth(50,51){};
+    BluetoothClass(): bluetooth(50, 51) {};
 
     void setupBlue();
     char* sendReceiveData();
+    bool lockSend(bool lock);
     char myBuffer[20];
     char output[20];
-    int index;
+    bool receivedFlag;
   private:
-   SoftwareSerial bluetooth;
-
+    SoftwareSerial bluetooth;
+    int index;
 };
 
 #endif

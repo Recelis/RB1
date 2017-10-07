@@ -16,8 +16,10 @@ void setup()
 
 void loop()
 {
-  Controlpanel.runTests(); 	
-  Controlpanel.KinematicsController();
-  Controlpanel.MotorController();
+  int on = Controlpanel.runCode(); 	
+  if (on){
+    Controlpanel.KinematicsController();
+    Controlpanel.MotorController();
+  }
 }
 

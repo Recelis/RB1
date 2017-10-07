@@ -9,7 +9,7 @@ Test::Test() {
 }
 
 int * Test::spin() {
-  int data[3];
+  static int data[3];
   if (count < 50) {
     data[0] = 0;
     data[1] = 0;
@@ -26,19 +26,22 @@ int * Test::spin() {
 }
 
 int * Test::forwardAndBackward() {
-  int data[3];
+  static int data[4];
   if (count < 50) {
-    data[0] = 21;
-    data[1] = 90;
-    data[2] = 0;
+    data[0] = 0;
+    data[1] = 21;
+    data[2] = 90;
+    data[3] = 0;
   } else {
-    data[0] = 21;
-    data[1] = 270;
-    data[2] = 0;
+    data[0] = 0;
+    data[1] = 21;
+    data[2] = 270;
+    data[3] = 0;
     if (count > 100) count = 0;
   }
   count++;
   Serial.println(data[2]);
+  delay(100);
   return data;
 }
 
@@ -72,9 +75,14 @@ int Test::compass() {
 int * Test::navigation(int * commandValues) {
   // assume that computer is sending these values to RB1
   int data[4];
+    data[0] = *(commandValues);
     data[1] = *(commandValues + 1);
     data[2] = *(commandValues + 2);
     data[3] = *(commandValues + 3);
+    Serial.print("data[2]:");
+    Serial.println(data[2]);
+    int * pointerToData;
+    pointerToData = data;
 //  data[1] = 21;
 //  data[2] = 90;
 //  data[3] = 0;
@@ -82,7 +90,7 @@ int * Test::navigation(int * commandValues) {
   readings = *testSensor.ultrasonicOutputs();
 
   int * vdata;
-  vdata = testNavigation.vectorFields(data, readings);
+  vdata = testNavigation.vectorFields(pointerToData, readings);
 
   return vdata;
 }

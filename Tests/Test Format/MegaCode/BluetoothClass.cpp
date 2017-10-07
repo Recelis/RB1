@@ -19,13 +19,25 @@ void BluetoothClass::setupBlue()
   bluetooth.begin(9600);  // Start bluetooth serial at 9600
   Serial.println("setup");
   index = 0;
+  receivedFlag = false;
 }
 
-
+bool BluetoothClass::lockSend(bool locked){
+  if (locked) {
+    bluetooth.print('L');
+//    Serial.println("Locked");
+    return true;
+  }
+  else {
+    bluetooth.print('O');
+//    Serial.println("Open");
+    return false;
+  }
+}
 
 char* BluetoothClass::sendReceiveData()
 {
-  if (Serial.available()) // If stuff was typed in the serial monitor
+  if (Serial.available()) // If stuff was typed in the serial monitor, which wouldn't happen
   {
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
@@ -35,7 +47,7 @@ char* BluetoothClass::sendReceiveData()
   {
     // Send any characters the bluetooth prints to the serial monitor
     char inputChar = (char)bluetooth.read();
-    //    Serial.print(inputChar);
+    Serial.print(inputChar);
 
     myBuffer[index] = inputChar;
     index++;
@@ -44,14 +56,19 @@ char* BluetoothClass::sendReceiveData()
       index = 0;
       for (int ii = 0; ii < 20; ii++) {
         myBuffer[ii] = "";
-//        Serial.print(output[ii]);
+        //        Serial.print(output[ii]);
+        receivedFlag = true; // set flag true so that only when full signal sent through, runs others
       }
     } else {
+      receivedFlag = false;
       for (int ii = 0; ii < 20; ii++) {
         output[ii] = "";
       }
     }
+  } else {
+    receivedFlag = false;
   }
+
   char* point;
   point = output;
   return point;

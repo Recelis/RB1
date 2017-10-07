@@ -18,6 +18,7 @@
 #include "Sensors.h"
 #include "Test.h"
 #include "BluetoothClass.h"
+#include "Navigation.h"
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,6 +29,8 @@
 #define SER_IN 29
 #define CLK 30
 #define L_CLK 28
+
+#define BUZZER 23
 
 class Control
 {
@@ -42,8 +45,10 @@ class Control
     void KinematicsController();
     int * processData(char* reading);
     void LightArray(int direction);
+    void RobotSleep();
     void runTests();
-    void runCode();
+    int runCode();
+    void beep(bool flag);
     double * outvels;
     double wheelVels[3];
     int * procData;
@@ -57,6 +62,7 @@ class Control
     Test MyTests;
     Sensors SensorData;
     BluetoothClass mybluetooth;
+    Navigation Nav;
     char SerialGet;
     int SerialBegin;
     int wheelpow1;
@@ -70,7 +76,7 @@ class Control
     int direction;
     int spin;
     int startread;
-    
+    bool sleep;
     // Test
     int direct;
 };

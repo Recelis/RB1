@@ -24,36 +24,72 @@ void Control::Controlsetup()
   direction = 0;
   spin = 0;
   mybluetooth.setupBlue();
+  int placeholderRemoteValues [4] = {0, 0, 90, 0};
+  procData = placeholderRemoteValues;
+  SensorData.SensorsSetup();
+  pinMode(BUZZER, OUTPUT);
+  sleep = false;
 }
 
-void Control::runCode() {
-  SensorData.SensorsSetup();
-  int *ultrasonicReadings;
+int Control::runCode() {
+  Serial.println("*");
+  // ultrasonic readings
+  int * ultrasonicReadings;
   ultrasonicReadings = SensorData.ultrasonicOutputs();
-  int heading = SensorData.compass();
-
+  char* raw = mybluetooth.sendReceiveData();
+  if (mybluetooth.receivedFlag) {
+    Serial.println("***********************************************************************New RunCode Loop*******************************************************************");
+    Serial.print("Range of Right is: ");
+    Serial.println(*(ultrasonicReadings));
+    Serial.print("Range of MiddleRight is: ");
+    Serial.println(*(ultrasonicReadings + 1));
+    Serial.print("Range of Front is: ");
+    Serial.println(*(ultrasonicReadings + 3));
+    Serial.print("Range of MiddleLeft is: ");
+    Serial.println(*(ultrasonicReadings + 4));
+    Serial.print("Range of Left is: ");
+    Serial.println(*(ultrasonicReadings + 2));
+    //    bluetooth readings
+    procData = processData(raw);
+    data = Nav.vectorFields(procData, ultrasonicReadings);
+    mybluetooth.lockSend(true);
+    SensorData.compass();
+    speed = *(data + 1);
+    direction = *(data + 2);
+    spin = *(data + 3);
+    String command = String(speed) + " " + String(direction) + " " + String(spin);
+    Serial.println(command);
+  } else {
+    data = Nav.vectorFields(procData, ultrasonicReadings);
+  }
+  if (sleep == true) {
+    RobotSleep();
+    Serial.println("Sleeping!");
+    return 0;
+  }
+  LightArray(*(data + 2));
+  // voltage level reading
+  int voltageLevel = SensorData.readVoltageLevel();
+  if (voltageLevel < 980) beep(false);
+  else beep(false);
+  return 1;
 }
 
 void Control::runTests()
 {
-
   char* raw = mybluetooth.sendReceiveData();
-  procData = processData(raw);
 
-  MyTests.compass();
-  data = MyTests.navigation(procData);
-  //  //  data = MyTests.forwardAndBackward();
-  speed = *(data + 1);
-  direction = *(data + 2);
-  spin = *(data + 3);
-  Serial.print("Speed: ");
-  Serial.println(speed);
-  Serial.print("Direction: ");
-  Serial.println(direction);
-  Serial.print("Spin: ");
-  Serial.println(spin);
+  if (mybluetooth.receivedFlag) {
+    Serial.println("***********************************************************************New RunTest Loop*******************************************************************");
+    mybluetooth.lockSend(true);
+    procData = processData(raw);
+    MyTests.compass();
+    data = MyTests.navigation(procData);
+    speed = *(data + 1);
+    direction = *(data + 2);
+    spin = *(data + 3);
+  }
   LightArray(direction);
-
 }
 
 int* Control::processData(char* reading) {
@@ -66,15 +102,21 @@ int* Control::processData(char* reading) {
   int directCount = 0;
   // placeholder values
   blueData[0] = 0; // placeholder
-  blueData[1] = speed;
-  blueData[2] = direction;
-  blueData[3] = spin;
+  blueData[1] = 0; // speed
+  blueData[2] = 90; // direction
+  blueData[3] = 0; // spin
   char * pEnd;
   char * pdEnd;
   for (int ii = 0; ii < 20; ii++) {
 
     char scanValue = *(reading + ii);
-
+    if (scanValue == 'F') {
+      sleep = true;
+      return;
+    }
+    if (scanValue == 'T') {
+      sleep = false;
+    }
     // getting speed
     if (scanValue == 'S') {
       readingSpeedFlag = true;
@@ -131,12 +173,6 @@ void Control::KinematicsController()
 
 void Control::MotorController()
 {
-  //  Serial.println("wheelVels 0 ");
-  //  Serial.println(wheelVels[0]);
-  //  Serial.println("wheelVels 1");
-  //  Serial.println(wheelVels[1]);
-  //  Serial.println("wheelVels 2");
-  //  Serial.println(wheelVels[2]);
   // Convert to 10-21 scale and to power values
   int lowEnd = 5;
   double wheelpower = 0;
@@ -165,13 +201,6 @@ void Control::MotorController()
   BMotorControl.drive(wheelpow2);
   CMotorControl.drive(wheelpow3);
   startread = 1; // after setting drive speed, go back into serial waiting mode
-  // bluetooth.print("bluetooth is running");
-  //   Serial.println("pow w1 ");
-  //   Serial.println(wheelpow1);
-  //   Serial.println("pow w2 ");
-  //   Serial.println(wheelpow2);
-  //   Serial.print("pow w3 ");
-  //   Serial.println(wheelpow3);
   // Remember that without full power, not all of the wheels will move
 }
 
@@ -193,15 +222,15 @@ void Control::LightArray(int direction) {
   digitalWrite(CLK, LOW);
   digitalWrite(SER_IN, LOW);
   for (int ii = 0; ii < 8; ii++) {
-//    Serial.println(ii);
+    //    Serial.println(ii);
     digitalWrite(CLK, LOW);
     delay(2);
     if (lightMask[ii] == 0) {
-//      Serial.println("low");
+      //      Serial.println("low");
       digitalWrite(SER_IN, LOW);
     }
     else {
-//      Serial.println("HIGH");
+      //      Serial.println("HIGH");
       digitalWrite(SER_IN, HIGH);
     }
     digitalWrite(CLK, HIGH);
@@ -209,6 +238,71 @@ void Control::LightArray(int direction) {
   }
   digitalWrite(L_CLK, HIGH);
   delay(10);
-
+  mybluetooth.lockSend(true);
 }
 
+void Control::RobotSleep() {
+  // turn off lights
+  int lightMask[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  digitalWrite(L_CLK, LOW);
+  digitalWrite(CLK, LOW);
+  digitalWrite(SER_IN, LOW);
+  for (int ii = 0; ii < 8; ii++) {
+    //    Serial.println(ii);
+    digitalWrite(CLK, LOW);
+    delay(2);
+    if (lightMask[ii] == 0) {
+      //      Serial.println("low");
+      digitalWrite(SER_IN, LOW);
+    }
+    else {
+      //      Serial.println("HIGH");
+      digitalWrite(SER_IN, HIGH);
+    }
+    digitalWrite(CLK, HIGH);
+    delay(2);
+  }
+  digitalWrite(L_CLK, HIGH);
+  delay(10);
+}
+
+void Control::beep(bool flag) {
+  if (flag == true) digitalWrite(BUZZER, HIGH);
+  else digitalWrite(BUZZER, LOW);
+}
+
+
+/*
+
+
+
+  Serial.println("wheelVels 0 ");
+  Serial.println(wheelVels[0]);
+  Serial.println("wheelVels 1");
+  Serial.println(wheelVels[1]);
+  Serial.println("wheelVels 2");
+  Serial.println(wheelVels[2]);
+
+
+
+  Serial.println("pow w1 ");
+  Serial.println(wheelpow1);
+  Serial.println("pow w2 ");
+  Serial.println(wheelpow2);
+  Serial.print("pow w3 ");
+  Serial.println(wheelpow3);
+
+
+  Serial.print("Speed: ");
+  Serial.println(speed);
+  Serial.print("Direction: ");
+  Serial.println(direction);
+  Serial.print("Spin: ");
+  Serial.println(spin);
+
+      Serial.println(*(data + 1));
+    Serial.println(*(data + 2));
+    Serial.println(*(data + 3));
+
+
+*/

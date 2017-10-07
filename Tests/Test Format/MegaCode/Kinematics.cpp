@@ -21,7 +21,8 @@ double * Kinematics::DriveDirection(double speed, double direction, double spin)
 	double angle = direction*PI/180; // angle is in radians
   double vy = speed * sin(angle);
   double vx =speed * cos(angle);
-  double radSpin = spin*PI/180; 
+  double radSpin = 0;
+  if (speed > 0) radSpin = spin*PI/180; 
 	//calculate wheel speeds in real speeds
 	vels[0] = -0.333*vx - 0.577*vy + 3*radSpin;
 	vels[1] = -0.333*vx + 0.577*vy  +3*radSpin;

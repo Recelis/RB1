@@ -21,7 +21,11 @@ void BluetoothClass::setupBlue()
   zeroSpeed = false;
   prevSpeed = 0;
   prevDirection = 0;
+<<<<<<< HEAD
   onState = true;
+=======
+  locked = false;
+>>>>>>> 0d669668dd6ca6aa6fc81f4a3a4f77e1f4783375
 }
 
 void BluetoothClass::connectToRB1()
@@ -38,6 +42,7 @@ void BluetoothClass::connectToRB1()
 
 void BluetoothClass::sendReceiveData(int speed, int direction, bool ON)
 {
+<<<<<<< HEAD
   if (bluetooth.available()) // If the bluetooth sent any characters
   {
     // Send any characters the bluetooth prints to the serial monitor
@@ -59,17 +64,13 @@ void BluetoothClass::sendReceiveData(int speed, int direction, bool ON)
       onState = true; 
     }
   }
+=======
+>>>>>>> 0d669668dd6ca6aa6fc81f4a3a4f77e1f4783375
   if (speed == 0) {
-    if (Serial.available()) // If stuff was typed in the serial monitor
-    {
-      // Send any characters the Serial monitor prints to the bluetooth
-      bluetooth.print((char)Serial.read());
-    } else {
-      if (zeroSpeed == false) {
-        Serial.println("   S0 D90");
-        bluetooth.println("   S0 D90");
-        zeroSpeed = true;
-      }
+    if (zeroSpeed == false) {
+      Serial.println("   S0 D90");
+      bluetooth.println("   S0 D90");
+      zeroSpeed = true;
     }
   } else {
     zeroSpeed = false;
@@ -89,5 +90,22 @@ void BluetoothClass::sendReceiveData(int speed, int direction, bool ON)
   // and loop forever and ever!
 }
 
+/*
+   if (bluetooth.available()) // If the bluetooth sent any characters
+  {
+    // Send any characters the bluetooth prints to the serial monitor
+    char blueRead = (char)bluetooth.read();
+    Serial.println(blueRead);
 
+    if (strcmp (blueRead, 'L') == 0) {
+      Serial.println("locked");
+      locked = true;
+    }
+    if (strcmp (blueRead, 'O') == 0) {
+      Serial.println("unlocked");
+      locked = false;
+    }
+    // read data to memory
+  }
+*/
 

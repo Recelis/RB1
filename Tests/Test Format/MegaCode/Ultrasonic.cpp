@@ -30,8 +30,11 @@ long Ultrasonic::Timing()
 int Ultrasonic::Ranging(int sys)
 {
   Timing();
-  distacne_cm = duration /29 / 2 ;
+//  Serial.println("************");
+//  Serial.println(duration);
+  distacne_cm = (int)duration /29.4 / 2 ;
   distance_inc = duration / 74 / 2;
+//  Serial.println(distacne_cm);
   if (sys)
   return distacne_cm;
   else
