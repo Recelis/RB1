@@ -20,6 +20,7 @@ class Switch
   public:
     void setupPins();
     void readPins();
+    int readPush();
     int calculateDirection();
     int getSpeed();
     private:

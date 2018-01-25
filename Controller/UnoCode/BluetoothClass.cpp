@@ -21,7 +21,11 @@ void BluetoothClass::setupBlue()
   zeroSpeed = false;
   prevSpeed = 0;
   prevDirection = 0;
+<<<<<<< HEAD
+  onState = true;
+=======
   locked = false;
+>>>>>>> 0d669668dd6ca6aa6fc81f4a3a4f77e1f4783375
 }
 
 void BluetoothClass::connectToRB1()
@@ -36,8 +40,32 @@ void BluetoothClass::connectToRB1()
 }
 
 
-void BluetoothClass::sendReceiveData(int speed, int direction)
+void BluetoothClass::sendReceiveData(int speed, int direction, bool ON)
 {
+<<<<<<< HEAD
+  if (bluetooth.available()) // If the bluetooth sent any characters
+  {
+    // Send any characters the bluetooth prints to the serial monitor
+    Serial.print((char)bluetooth.read());
+
+    // read data to memory
+  }
+  if (ON == false){
+    if (onState == true){
+      bluetooth.println("   F");
+      Serial.println("   F");
+      onState = false;  
+    }
+    return;
+  } else {
+    if (onState == false) {
+      bluetooth.println("   T");
+      Serial.println("   T");
+      onState = true; 
+    }
+  }
+=======
+>>>>>>> 0d669668dd6ca6aa6fc81f4a3a4f77e1f4783375
   if (speed == 0) {
     if (zeroSpeed == false) {
       Serial.println("   S0 D90");

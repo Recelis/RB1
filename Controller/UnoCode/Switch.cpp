@@ -11,6 +11,7 @@ void Switch::setupPins()
   pinMode(vrx, INPUT);
   pinMode(vry, INPUT);
   pinMode(led, OUTPUT);
+  pinMode(sw, INPUT);
   vrxRead = 500;
   vryRead = 500;
 }
@@ -35,6 +36,12 @@ int Switch::getSpeed() {
 int Switch::calculateDirection() {
   double out = atan2(vryRead - 500, vrxRead - 500) * 180 / PI;
   return (int) out;
+}
+
+int Switch::readPush(){
+  int button = 0;
+  button = digitalRead(sw);
+  return button;
 }
 
 //  Serial.println("*******************");
