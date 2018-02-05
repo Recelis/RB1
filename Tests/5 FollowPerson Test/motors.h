@@ -28,8 +28,8 @@ public:
 	void MotorController();
 	void KinematicsController();
 	void SerialUno();
-	int * outvels;
-	int wheelVels[3];
+	double * outvels;
+	double wheelVels[3];
 
 private:
 	MotorControl AMotorControl;
@@ -55,6 +55,8 @@ private:
 	int prevspeed;
 	int prevdirection;
 	int prevspin;
+  // Test 
+  int direct;
 };
 
 #endif 	

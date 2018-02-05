@@ -24,16 +24,17 @@ long Ultrasonic::Timing()
   delayMicroseconds(10);
   digitalWrite(Trig_pin, LOW);
   duration = pulseIn(Echo_pin,HIGH);
-//  Serial.print("duration: ");
-//  Serial.println(duration);
   return duration;
 }
 
-long Ultrasonic::Ranging(int sys)
+int Ultrasonic::Ranging(int sys)
 {
   Timing();
-  distacne_cm = duration /29 / 2 ;
+//  Serial.println("************");
+//  Serial.println(duration);
+  distacne_cm = (int)duration /29.4 / 2 ;
   distance_inc = duration / 74 / 2;
+//  Serial.println(distacne_cm);
   if (sys)
   return distacne_cm;
   else

@@ -16,8 +16,6 @@ void setup()
 
 void loop()
 {
-  Controlpanel.SerialUno(); 	
-  Controlpanel.KinematicsController();
-  Controlpanel.MotorController();
+  Controlpanel.runCode(); 	
 }
 
