@@ -19,11 +19,12 @@ void Control::Controlsetup()
 void Control::runCode() {
   // ultrasonic readings
     long* ultrasonicReadings = SensorData.returnUltrasonics();
+    Objects.processData(ultrasonicReadings);
     printData(ultrasonicReadings);
-    KinematicsDriver.runKinematics(21,180,0);
-    delay(5000);
-    KinematicsDriver.runKinematics(21,0,0);
-    delay(5000);
+    // KinematicsDriver.runKinematics(21,180,0);
+    // delay(5000);
+    // KinematicsDriver.runKinematics(21,0,0);
+    // delay(5000);
   }
 
   void Control::printData(long* ultrasonicReadings){
