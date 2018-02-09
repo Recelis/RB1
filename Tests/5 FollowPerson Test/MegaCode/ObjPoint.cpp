@@ -7,7 +7,8 @@
 #include "ObjPoint.h"
 
 ObjPoint::ObjPoint(){
-
+    distance = -1;
+    direction = -1;
 }
 
 void ObjPoint::set(double dist, double direct){

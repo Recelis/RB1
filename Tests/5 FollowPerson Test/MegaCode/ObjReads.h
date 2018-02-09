@@ -17,8 +17,8 @@ class ObjReads{
         void processData(long* ultrasonics);
     private:
         void fillPoints(long* ultrasonics);
-        void screenPoints();
-        void calcPerson();
+        void screenPoints(int ii);
+        void calcPerson(int ii);
         Sensors SensorData;
         ObjPoint FL;
         ObjPoint F;
@@ -28,6 +28,7 @@ class ObjReads{
         ObjPoint BL;
         ObjPoint Person;
         ObjPoint sixrants[6] {F, FR, BR, FL, BL, B};
+        bool personDetected = false;
 };
 
 #endif;

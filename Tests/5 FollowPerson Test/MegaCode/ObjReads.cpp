@@ -6,22 +6,22 @@
 #include "ObjReads.h"
 
 ObjReads::ObjReads(){
-    Person.set(0,0);
+    pinMode(13, OUTPUT);
 }
 
 void ObjReads::processData(long* ultrasonicData){
     fillPoints(ultrasonicData);
-    screenPoints();
-    
+    for (int ii =0; ii < 6; ii++){
+        screenPoints(ii);
+        calcPerson(ii);
+    }
 }
 
-void ObjReads::screenPoints(){
-    for (int ii =0; ii < 6; ii++){
-        if (sixrants[ii].get()[1] > 100){
+void ObjReads::screenPoints(int ii){
+        if (sixrants[ii].get()[0] > 100){
             sixrants[ii].set(0,0);
         }
         Serial.println(sixrants[ii].get()[1]);
-    }
 }
 
 void ObjReads::fillPoints(long* ultrasonicData){
@@ -33,9 +33,20 @@ void ObjReads::fillPoints(long* ultrasonicData){
     sixrants[5].set(ultrasonicData[5],270);
 }
 
-void ObjReads::calcPerson(){
-
-} 
+void ObjReads::calcPerson(int ii){
+    if (sixrants[ii].get()[0] <= 4 && sixrants[ii].get()[0] >= 2){
+        if (personDetected == false){
+        
+        // ignore 0, because that might be an error in ultrasonic sensors. 
+            Person.set(sixrants[ii].get()[0], sixrants[ii].get()[0]); 
+            digitalWrite(13, HIGH);
+            personDetected = true;
+        } else{
+            digitalWrite(13, LOW);
+            personDetected = false;
+        }
+    }   
+}
 
 ObjReads::~ObjReads(){
 
