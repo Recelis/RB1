@@ -42,11 +42,12 @@ void Kinematics::convertToMotorValues(double* realVels){
 }
 
 void Kinematics::calcWheelVelocities(double speed, double direction, double spin){ // direction is in degrees, spin in degrees (max is 135)
-		double angle = direction*PI/180; // angle is in radians
-  double vy = speed * sin(angle);
-  double vx =speed * cos(angle);
-  double radSpin = 0;
-  if (speed > 0) radSpin = spin*PI/180; 
+	double angle = direction*PI/180; // angle is in radians
+	double vy = speed * sin(angle);
+	double vx =speed * cos(angle);
+	double radSpin = 0;
+	if (speed > 0) radSpin = spin*PI/180; 
+	
 	//calculate wheel speeds in real speeds
 	double* realVels = new double[3]; 
 	realVels[0] = -0.333*vx - 0.577*vy + 3*radSpin;
