@@ -14,8 +14,7 @@
 
 #include "Arduino.h"
 #include "Sensors.h"
-#include "ObjReads.h"
-#include "Kinematics.h"
+
 
 class Control
 {
@@ -26,11 +25,7 @@ class Control
     void runCode();
 
   private:
-    void printData(long * ultrasonicReadings); 
-    Sensors SensorData;
-    ObjReads Objects;
-    Kinematics KinematicsDriver;
-    String ultrasonicOrient[6] {"F", "FR", "BR", "FL", "BL", "B"};
+    Navigation Navigate;
 };
 
 #endif

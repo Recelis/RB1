@@ -11,7 +11,14 @@ ObjReads::ObjReads(){
     pinMode(13, OUTPUT);
     PersonX = -1;
     PersonY = -1;
+}
 
+ObjPoint ObjReads::getPerson(){
+    return Person;
+}
+
+bool ObjectPoint::getPersonDetected(){
+    return personDetected;
 }
 
 void ObjReads::processData(long* ultrasonicData){

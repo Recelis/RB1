@@ -19,6 +19,8 @@ class ObjReads{
         ObjReads();
         ~ObjReads();
         void processData(long* ultrasonics);
+        ObjPoint getPerson();
+        bool getPersonDetected();
     private:
         void splitPersonIntoXY();
         void fillPoints(long* ultrasonics);

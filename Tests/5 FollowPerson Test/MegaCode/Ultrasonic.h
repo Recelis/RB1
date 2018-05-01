@@ -12,6 +12,7 @@
 
 #define CM 1
 #define INC 0
+#define TIMEOUT 13333 // at 300m/s speed of sound for distance of 2m, 4m in total
 
 class Ultrasonic
 {
