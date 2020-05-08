@@ -7,7 +7,7 @@
 /*
 	17/01/2016 
 	Issues with Software Serial dropping out
-*/	
+*/
 
 #ifndef Control_h
 #define Control_h
@@ -16,20 +16,21 @@
 #include "MotorControl.h"
 #include "Kinematics.h"
 #include <math.h>
-#include <SoftwareSerial.h>	
+#include <SoftwareSerial.h>
 
 class Control
 {
 public:
-	Control() : BMotorControl(2,4,3), CMotorControl(7,8,6), AMotorControl(11,12,5), SerialTrans(14,15){
-		pinMode(13, OUTPUT); // Built in LED and Iron Man LED Array 
+	Control() : BMotorControl(22, 23), CMotorControl(24, 25), AMotorControl(26, 27), SerialTrans(14, 15)
+	{
+		pinMode(13, OUTPUT); // Built in LED and Iron Man LED Array
 	}
 	void Controlsetup();
 	void MotorController();
 	void KinematicsController();
 	void SerialUno();
-	int * outvels;
-	int wheelVels[3];
+	double *outvels;
+	double wheelVels[3];
 
 private:
 	MotorControl AMotorControl;
@@ -55,6 +56,8 @@ private:
 	int prevspeed;
 	int prevdirection;
 	int prevspin;
+	// Test
+	int direct;
 };
 
-#endif 	
+#endif

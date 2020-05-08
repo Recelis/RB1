@@ -7,24 +7,21 @@
 
 #include "MotorControl.h"
 
-
-MotorControl::MotorControl(int motorin1, int motorin2, int motorset)
+MotorControl::MotorControl(int motorin1, int motorin2)
 {
   // setup pinmodes
   pinMode(motorin1, OUTPUT);
   pinMode(motorin2, OUTPUT);
-  pinMode(motorset, OUTPUT);
-   
-  pinMode(13, OUTPUT);	
+
+  pinMode(13, OUTPUT);
   _motorin1 = motorin1;
   _motorin2 = motorin2;
-  _motorset = motorset;
 }
 
 void MotorControl::setupinput()
 {
-   // setup input switches
-  digitalWrite(_motorset, HIGH); 
+  // setup input switches
+  digitalWrite(_motorset, HIGH);
 }
 
 void MotorControl::forward(int speed)
@@ -36,7 +33,7 @@ void MotorControl::forward(int speed)
 void MotorControl::reverse(int speed)
 {
   analogWrite(_motorin1, 0);
-  analogWrite(_motorin2, speed);	
+  analogWrite(_motorin2, speed);
 }
 
 void MotorControl::drive(int speed) // for kinematics controller
@@ -44,24 +41,24 @@ void MotorControl::drive(int speed) // for kinematics controller
   if (speed > 0)
   {
     analogWrite(_motorin1, speed);
-    analogWrite(_motorin2, 0);    
+    analogWrite(_motorin2, 0);
   }
-  else 
+  else
   {
     speed = -speed;
     analogWrite(_motorin1, 0);
-    analogWrite(_motorin2, speed);   
+    analogWrite(_motorin2, speed);
   }
 }
 
 void MotorControl::brake()
 {
   analogWrite(_motorin1, 255);
-  analogWrite(_motorin2, 255);	
+  analogWrite(_motorin2, 255);
 }
 
 void MotorControl::coast()
 {
   analogWrite(_motorin1, 0);
-  analogWrite(_motorin2, 0);	
+  analogWrite(_motorin2, 0);
 }
